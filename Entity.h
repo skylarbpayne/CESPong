@@ -1,6 +1,6 @@
 /**
 	* Wrapper class for collections of components and behaviors that constitute anything.
-	
+    *
 	* Author: Skylar Payne
 	* Date: 6/8/2013
 	* File: Entity.h
