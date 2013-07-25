@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include <string>
-
 class Entity;
 
 class IComponent
@@ -17,10 +15,10 @@ class IComponent
 friend class Entity;
 protected:
 	Entity* p_Parent;
-	std::string _Type;
+    const char* _Type;
 public:
-	IComponent(std::string type) : _Type(type) {};
-    virtual ~IComponent() {}
+    IComponent(const char* type) : _Type(type) {};
+    virtual ~IComponent() { }
 
 	/**
         * @brief IComponent::GetParent Returns the parent entity to which this component is attached
@@ -32,5 +30,5 @@ public:
         * @brief IComponent::GetType Returns the type of this component
 		* @return the type of this component
 	**/
-	std::string GetType() const { return _Type; }
+    const char* GetType() const { return _Type; }
 };

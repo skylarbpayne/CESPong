@@ -17,8 +17,10 @@ friend class EntityManager;
 private:
     unsigned int _ID;
 	std::list<IComponent*> _Components;
+private:
+    bool Find(const char* type, std::list<IComponent*>::iterator& loc);
 public:
 	bool Attach(IComponent* comp);
-	void Remove(std::string type);
-	bool Has(std::string type, std::list<IComponent*>::iterator& loc);
+    void Remove(const char* type);
+    bool Has(const char* type);
 };
