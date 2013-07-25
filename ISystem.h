@@ -26,5 +26,4 @@ public:
 	std::string GetType() const { return _Type; }
     virtual void Update(unsigned long dt) = 0;
     virtual void ValidateEntity(unsigned int ID) = 0;
-	virtual void OnMessage(Message* msg) = 0;
 };

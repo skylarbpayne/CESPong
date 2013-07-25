@@ -7,6 +7,7 @@
     * File: EntityManager.h
 **/
 
+#include <list>
 #include "EntityAccessor.h"
 
 class EntityManager : public EntityAccessor
@@ -17,7 +18,5 @@ private:
     bool AddEntity(Entity* e);
     void RemoveEntity(unsigned int ID);
 public:
-    EntityManager();
     ~EntityManager();
-    void OnMessage(Message *msg);
 };

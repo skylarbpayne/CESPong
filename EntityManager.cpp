@@ -13,20 +13,10 @@
 std::vector<Entity*> EntityAccessor::s_Entities;
 
 /**
- * @brief EntityManager::EntityManager used to subscribe to events
- */
-EntityManager::EntityManager()
-{
-    this->Subscribe(Message::DestroyEntity);
-}
-
-/**
- * @brief EntityManager::~EntityManager unsubscribes from events and removes all entities.
+ * @brief EntityManager::~EntityManager removes all entities.
  */
 EntityManager::~EntityManager()
 {
-    this->Unsubscribe(Message::DestroyEntity);
-
     for(unsigned int i = 0; i < EntityAccessor::s_Entities.size(); i++)
     {
         if(EntityAccessor::s_Entities[i])
@@ -67,10 +57,7 @@ bool EntityManager::AddEntity(Entity *e)
             e->_ID = *it;
             EntityAccessor::s_Entities[*it] = e;
 
-            Message* msg = new Message();
-            msg->_MessageType = Message::EntityDestroyed;
-            msg->_EntityMessage.ID = (*it);
-            this->SendMessage(msg);
+           //EMIT MESSAGE HERE
 
             _EntitySpaces.erase(it);
             return true;
@@ -102,20 +89,5 @@ void EntityManager::RemoveEntity(unsigned int ID)
         _EntitySpaces.push_back(ID);
     }
 
-    Message* msg = new Message();
-    msg->_MessageType = Message::EntityDestroyed;
-    msg->_EntityMessage.ID = ID;
-    this->SendMessage(msg);
-}
-
-/**
- * @brief EntityManager::OnMessage handles messages of interest
- * @param msg the message to handle
- */
-void EntityManager::OnMessage(Message *msg)
-{
-    if(msg->_MessageType == Message::DestroyEntity)
-    {
-        RemoveEntity(msg->_EntityMessage.ID);
-    }
+   //EMIT MESSAGE HERE
 }
