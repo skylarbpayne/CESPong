@@ -11,7 +11,7 @@
 #include <vector>
 #include <list>
 #include <cstring>
-#include <stdlib>
+#include <cstdlib>
 
 template<class T>
 class HashTable
@@ -25,7 +25,7 @@ private:
      * @param key the key to hash
      * @return a hash of the key
      */
-    unsigned int Hash(const void* key)
+    unsigned int Hash(const char* key)
     {
         const char* s = key;
         unsigned int h = 0;
@@ -47,13 +47,13 @@ private:
      * @param loc the location of the element if found
      * @return true if the element was found, false otherwise.
      */
-    bool Find(const char* key, std::list<std::pair<const char*, T> >::iterator& loc)
+    bool Find(const char* key, typename std::list<std::pair<const char*, T> >::iterator& loc)
     {
         std::list<std::pair<const char*, T> > chain = _HashTable[Hash(key)];
-        std::list<std::pair<const char*, T> >::iterator it;
+        typename std::list<std::pair<const char*, T> >::iterator it;
         for(it = chain.begin(); it != chain.end(); it++)
         {
-            if(strcmp((*it)->first, key) == 0)
+            if(strcmp(it->first, key) == 0)
             {
                 loc = it;
                 return true;
@@ -67,7 +67,13 @@ public:
      * @brief HashTable
      * @param size the number of elements to initialize in the internal vector
      */
-    HashTable(unsigned int size = 10) : _HashTable(10) { }
+    HashTable(unsigned int size = 10) : _HashTable(size) { }
+
+    /**
+     * @brief GetContainer returns the internal hashtable container; a hack for iteration
+     * @return the hashtable container
+     */
+    std::vector<std::list<std::pair<const char*, T> > >& GetContainer() { return _HashTable; }
 
     /**
      * @brief Add adds an element into the hash table
@@ -77,7 +83,7 @@ public:
      */
     bool Add(const char* key, T element)
     {
-        std::list<std::pair<const char*, T> >::iterator it;
+        typename std::list<std::pair<const char*, T> >::iterator it;
         if(Find(key, it))
         {
             return true;
@@ -93,7 +99,7 @@ public:
      */
     void Remove(const char* key)
     {
-        std::list<std::pair<const char*, T> >::iterator loc;
+        typename std::list<std::pair<const char*, T> >::iterator loc;
         if(Find(key, loc))
         {
             _HashTable[Hash(key)].erase(loc);
@@ -107,7 +113,7 @@ public:
      */
     T Get(const char* key)
     {
-        std::list<std::pair<const char*, T> >::iterator loc;
+        typename std::list<std::pair<const char*, T> >::iterator loc;
         if(Find(key, loc))
         {
             return loc->second;

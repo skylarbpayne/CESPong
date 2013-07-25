@@ -1,7 +1,7 @@
 /**
     * Interface for all resource caches to derive from.
     * Author: Skylar Payne
-    * Date: 6/8/2013
+    * Date: 7/21/2013
     * File: IResourceCache.h
 **/
 
@@ -43,5 +43,25 @@ public:
      * @return the resource, if found, nullptr otherwise.
      */
     virtual T* Get(const char* file) = 0;
-    virtual void Unload() = 0;
+
+    /**
+     * @brief Unload unloads all resources from the cache
+     */
+    void Unload()
+    {
+        typename std::vector<std::list<std::pair<const char*, T*> > >::iterator fit;
+        typename std::list<std::pair<const char*, T*> >::iterator sit;
+
+        for(fit = _Resources.GetContainer().begin(); fit != _Resources.GetContainer().end(); fit++)
+        {
+            for(sit = fit->begin(); sit != fit->end(); sit++)
+            {
+                if(sit->second)
+                {
+                    delete (sit->second);
+                    (sit->second) = nullptr;
+                }
+            }
+        }
+    }
 };
