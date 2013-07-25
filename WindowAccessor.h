@@ -1,6 +1,6 @@
 /**
     * WindowAccessor allows wide access to window specific methods while ensuring that only one class can change it
-
+    *
     * Author: Skylar Payne
     * Date: 7/23/2013
     * File: WindowAccessor.h

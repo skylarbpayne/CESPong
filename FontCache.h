@@ -1,5 +1,6 @@
 /**
     * Cache for storage of all fonts
+    *
     * Author: Skylar Payne
     * Date: 7/24/2013
     * File: FontCache.h

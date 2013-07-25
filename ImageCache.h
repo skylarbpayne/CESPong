@@ -1,5 +1,6 @@
 /**
     * Cache for sf::Images
+    *
     * Author: Skylar Payne
     * Date: 7/24/2013
     * File: ImageCache.h

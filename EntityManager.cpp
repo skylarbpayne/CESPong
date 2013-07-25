@@ -1,7 +1,7 @@
 /**
     * EntityManager handles the adding and removing of entities and any other higher level entity management. Has write access
-    *   to EntityAccessor. Implementation of class declared in EntityManager.h
-
+    * to EntityAccessor. Implementation of class declared in EntityManager.h
+    *
     * Author: Skylar Payne
     * Date: 7/16/2013
     * File: EntityManager.cpp
@@ -9,7 +9,6 @@
 
 #include "EntityManager.h"
 #include "Entity.h"
-#include "Message.h"
 
 std::vector<Entity*> EntityAccessor::s_Entities;
 

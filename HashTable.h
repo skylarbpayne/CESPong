@@ -1,6 +1,6 @@
 /**
     * HashTable implementation utilizing chaining to avoid collisions. The key used should be of type string
-
+    *
     * Author: Skylar Payne
     * Date: 7/18/2013
     * File: HashTable.h

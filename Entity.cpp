@@ -1,6 +1,6 @@
 /**
 	* Implementation of the entity class declared in Entity.h
-
+    *
 	* Author: Skylar Payne
 	* Date: 6/8/2013
 	* File: Entity.cpp

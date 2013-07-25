@@ -1,5 +1,6 @@
 /**
     * Implementation of FontCache as declared in FontCache.h
+    *
     * Author: Skylar Payne
     * Date: 7/24/2013
     * File: FontCache.cpp

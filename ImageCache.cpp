@@ -1,5 +1,6 @@
 /**
     * Implementation of ImageCache as declared in ImageCache.h
+    *
     * Author: Skylar Payne
     * Date: 7/24/2013
     * File: ImageCache.cpp

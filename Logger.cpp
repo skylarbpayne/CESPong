@@ -1,3 +1,11 @@
+/**
+    * Logging implementation. Use the global instance of this class to log everything. Will wrap to file later
+    *
+    * Author: Skylar Payne
+    * Date: 7/24/2013
+    * File: Logger.h
+**/
+
 #include "Logger.h"
 #include <iostream>
 

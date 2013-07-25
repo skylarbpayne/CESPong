@@ -1,6 +1,6 @@
 /**
 	* Interface for all components to derive from. All components contain at the bare minimum a string type and parent entity
-	
+    *
 	* Author: Skylar Payne
 	* Date: 6/8/2013
 	* File: IComponent.h

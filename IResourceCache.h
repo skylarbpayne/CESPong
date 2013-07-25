@@ -1,5 +1,6 @@
 /**
     * Interface for all resource caches to derive from.
+    *
     * Author: Skylar Payne
     * Date: 7/21/2013
     * File: IResourceCache.h

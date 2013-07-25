@@ -1,7 +1,7 @@
 /**
 	* SystemManager manages all component systems. Allows the addition and removal of systems. Updates all systems,
-		and facilitates pausing all systems.
-	
+    * and facilitates pausing all systems.
+    *
 	* Author: Skylar Payne
 	* Date: 6/23/2013
 	* File: SystemManager.cpp

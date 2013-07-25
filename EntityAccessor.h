@@ -1,6 +1,6 @@
 /**
     * EntityAccessor allows wide read access to game elements while restricting write priveledges to EntityManager
-	
+    *
 	* Author: Skylar Payne
 	* Date: 6/8/2013
     * File: EntityAccessor.h

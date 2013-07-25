@@ -1,6 +1,6 @@
 /**
 	* Interface for all systems. Systems act on a particular set of components.
-	
+    *
 	* Author: Skylar Payne
 	* Date: 6/8/2013
 	* File: ISystem.h
@@ -9,10 +9,9 @@
 #pragma once
 
 #include <list>
-#include "Messenger.h"
 #include "EntityAccessor.h"
 
-class ISystem : public Messenger, EntityAccessor
+class ISystem : public EntityAccessor
 {
 protected:
 	bool _Active;
