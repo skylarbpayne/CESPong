@@ -9,8 +9,9 @@
 
 #include <list>
 #include "EntityAccessor.h"
+#include "Listener.h"
 
-class EntityManager : public EntityAccessor
+class EntityManager : public EntityAccessor, Listener<EntityMessage>
 {
 private:
     std::list<unsigned int> _EntitySpaces;

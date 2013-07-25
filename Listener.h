@@ -6,7 +6,10 @@
     * File: Listener.h
 **/
 
+#pragma once
+
 #include <list>
+#include "Message.h"
 
 template<class T>
 class Listener
@@ -20,7 +23,7 @@ public:
     virtual void onMessage(T& msg) { }
     void Emit(T& msg)
     {
-        std::list<Listener<T>*>::iterator it;
+        typename std::list<Listener<T>*>::iterator it;
         for(it = _Listeners.begin(); it != _Listeners.end(); it++)
         {
             if(*it)

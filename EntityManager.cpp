@@ -36,7 +36,6 @@ EntityManager::~EntityManager()
  */
 bool EntityManager::AddEntity(Entity *e)
 {
-    //Maybe update later to include a list of free IDs?
     if(e == nullptr)
     {
         return false;
@@ -46,6 +45,12 @@ bool EntityManager::AddEntity(Entity *e)
     {
         e->_ID = EntityAccessor::s_Entities.size();
         EntityAccessor::s_Entities.push_back(e);
+
+        EntityMessage msg;
+        msg.ID = e->_ID;
+        msg.Destroyed = false;
+        this->Listener<EntityMessage>::Emit(msg);
+
         return true;
     }
 
@@ -57,7 +62,10 @@ bool EntityManager::AddEntity(Entity *e)
             e->_ID = *it;
             EntityAccessor::s_Entities[*it] = e;
 
-           //EMIT MESSAGE HERE
+            EntityMessage msg;
+            msg.ID = e->_ID;
+            msg.Destroyed = false;
+            this->Listener<EntityMessage>::Emit(msg);
 
             _EntitySpaces.erase(it);
             return true;
@@ -87,7 +95,10 @@ void EntityManager::RemoveEntity(unsigned int ID)
         delete EntityAccessor::s_Entities[ID];
         EntityAccessor::s_Entities[ID] = nullptr;
         _EntitySpaces.push_back(ID);
-    }
 
-   //EMIT MESSAGE HERE
+        EntityMessage msg;
+        msg.ID = ID;
+        msg.Destroyed = true;
+        this->Listener<EntityMessage>::Emit(msg);
+    }
 }
