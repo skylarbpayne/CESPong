@@ -18,9 +18,12 @@ private:
     unsigned int _ID;
 	std::list<IComponent*> _Components;
 private:
-    bool Find(const char* type, std::list<IComponent*>::iterator& loc);
+    bool FindComponent(const char* type, std::list<IComponent*>::iterator& loc);
 public:
-	bool Attach(IComponent* comp);
-    void Remove(const char* type);
-    bool Has(const char* type);
+    bool AttachComponent(IComponent* comp);
+    void RemoveComponent(const char* type);
+    bool HasComponent(const char* type);
+
+    template<class T>
+    T* GetComponent(const char* type);
 };

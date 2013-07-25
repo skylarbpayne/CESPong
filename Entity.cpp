@@ -10,12 +10,12 @@
 #include <cstring>
 
 /**
- * @brief Entity::Find finds a specified component
+ * @brief Entity::FindComponent finds a specified component
  * @param type the type of component to look for
  * @param loc the location of the component if found
  * @return true if the component was found, false otherwise
  */
-bool Entity::Find(const char* type, std::list<IComponent*>::iterator &loc)
+bool Entity::FindComponent(const char* type, std::list<IComponent*>::iterator &loc)
 {
     for(loc = _Components.begin(); loc != _Components.end(); loc++)
     {
@@ -28,11 +28,11 @@ bool Entity::Find(const char* type, std::list<IComponent*>::iterator &loc)
 }
 
 /**
-    * @brief Entity::Attach Attaches a component to the entity if a component of that type is not already attached
+    * @brief Entity::AttachComponent Attaches a component to the entity if a component of that type is not already attached
 	* @param comp The component to attach
 	* @return true if the new component was attached, false otherwise.
 **/
-bool Entity::Attach(IComponent* comp)
+bool Entity::AttachComponent(IComponent* comp)
 {
     if(comp == nullptr)
 	{
@@ -40,7 +40,7 @@ bool Entity::Attach(IComponent* comp)
 	}
 
 	std::list<IComponent*>::iterator it;
-    if(this->Find(comp->GetType(), it))
+    if(this->FindComponent(comp->GetType(), it))
 	{
 		return false;
 	}
@@ -50,25 +50,42 @@ bool Entity::Attach(IComponent* comp)
 }
 
 /**
-    * @brief Entity::Remove Removes a type component from an entity if that entity has that component
+    * @brief Entity::RemoveComponent Removes a type component from an entity if that entity has that component
 	* @param type The component type to remove.
 **/
-void Entity::Remove(const char* type)
+void Entity::RemoveComponent(const char* type)
 {
 	std::list<IComponent*>::iterator it;
-    if(this->Find(type, it))
+    if(this->FindComponent(type, it))
 	{
 		_Components.erase(it);
 	}
 }
 
 /**
-    * @brief Entity::Has Finds a particular component
+    * @brief Entity::HasComponent Finds a particular component
 	* @param type The type of component to find
 	* @return true if the component was found, false otherwise
 **/
-bool Entity::Has(const char* type)
+bool Entity::HasComponent(const char* type)
 {
     std::list<IComponent*>::iterator it;
-    return this->Find(type, it);
+    return this->FindComponent(type, it);
+}
+
+/**
+ * @brief Entity::GetComponent templated method to get a Component
+ * @param type the type of component to get
+ * @return the component, if found, nullptr otherwise.
+ */
+template<class T>
+T* Entity::GetComponent(const char* type)
+{
+    std::list<IComponent*>::iterator it;
+    if(this->FindComponent(type, it))
+    {
+        return static_cast<T>(*it);
+    }
+
+    return nullptr;
 }
