@@ -9,6 +9,26 @@
 
 #include "SystemManager.h"
 #include "ISystem.h"
+#include <cstring>
+
+/**
+ * @brief SystemManager::Find finds a specified system
+ * @param type the type of system to look for
+ * @param loc the location of the system, if found
+ * @return true if the system was found, false otherwise
+ */
+bool SystemManager::Find(const char *type, std::list<ISystem*>::iterator &loc)
+{
+    for(loc = _Systems.begin(); loc != _Systems.end(); loc++)
+    {
+        if(strcmp((*loc)->GetType(), type) == 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 /**
     * @brief SystemManager::Add Adds a system to manager if a system of that type has not already been added
@@ -17,18 +37,19 @@
 **/
 bool SystemManager::Add(ISystem* sys)
 {
-	if(sys == NULL)
+    if(sys == nullptr)
 	{
 		return false;
 	}
 
 	std::list<ISystem*>::iterator it;
-	if(this->Has(sys->GetType(), it))
+    if(this->Find(sys->GetType(), it))
 	{
 		return false;
 	}
 
 	_Systems.push_back(sys);
+
 	return true;
 }
 
@@ -36,10 +57,10 @@ bool SystemManager::Add(ISystem* sys)
     * @brief SystemManager::Remove Removes a system from the manager
 	* @param type The type of system to remove
 **/
-void SystemManager::Remove(std::string type)
+void SystemManager::Remove(const char* type)
 {
 	std::list<ISystem*>::iterator it;
-	if(this->Has(type, it))
+    if(this->Find(type, it))
 	{
 		_Systems.erase(it);
 	}
@@ -48,20 +69,12 @@ void SystemManager::Remove(std::string type)
 /**
     * @brief SystemManager::Has Checks to see if a system exists within the manager
 	* @param type The type to check for
-	* @param loc The location of the system if it was found
 	* @return true if the system was found, false otherwise
 **/
-bool SystemManager::Has(std::string type, std::list<ISystem*>::iterator& loc)
+bool SystemManager::Has(const char* type)
 {
-    for(loc = _Systems.begin(); loc != _Systems.end(); loc++)
-	{
-		if((*loc)->GetType() == type)
-		{
-			return true;
-		}
-	}
-
-	return false;
+    std::list<ISystem*>::iterator loc;
+    return this->Find(type, loc);
 }
 
 /**

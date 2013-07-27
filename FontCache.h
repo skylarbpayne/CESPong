@@ -11,6 +11,8 @@
 #include "IResourceCache.h"
 #include <SFML/Graphics.hpp>
 
+typedef std::unordered_map<const char*, sf::Font*, eqstr, eqstr> FontMap;
+
 class FontCache : public IResourceCache<sf::Font>
 {
 public:

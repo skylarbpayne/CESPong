@@ -15,14 +15,21 @@
  */
 bool ImageCache::Add(const char* file)
 {
+    ImageMap::iterator it = _Resources.find(file);
+    if(it != _Resources.end())
+    {
+        return true;
+    }
+
     sf::Image* newImage = new sf::Image();
-    if(!newImage->loadFromFile(file) || !_Resources.Add(file, newImage))
+    if(!newImage->loadFromFile(file))
     {
         delete newImage;
         newImage = nullptr;
         return false;
     }
 
+    _Resources[file] = newImage;
     return true;
 }
 
@@ -32,7 +39,8 @@ bool ImageCache::Add(const char* file)
  */
 void ImageCache::Remove(const char* file)
 {
-    _Resources.Remove(file);
+    ImageMap::iterator it = _Resources.find(file);
+    _Resources.erase(it);
 }
 
 /**
@@ -42,5 +50,11 @@ void ImageCache::Remove(const char* file)
  */
 sf::Image* ImageCache::Get(const char* file)
 {
-    return _Resources.Get(file);
+    ImageMap::iterator it = _Resources.find(file);
+    if(it == _Resources.end())
+    {
+        return nullptr;
+    }
+
+    return _Resources[file];
 }

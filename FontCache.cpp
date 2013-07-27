@@ -15,14 +15,21 @@
  */
 bool FontCache::Add(const char *file)
 {
+    FontMap::iterator it = _Resources.find(file);
+    if(it != _Resources.end())
+    {
+        return true;
+    }
+
     sf::Font* newFont = new sf::Font();
-    if(!newFont->loadFromFile(file) || !_Resources.Add(file, newFont))
+    if(!newFont->loadFromFile(file))
     {
         delete newFont;
         newFont = nullptr;
         return false;
     }
 
+    _Resources[file] = newFont;
     return true;
 }
 
@@ -32,7 +39,8 @@ bool FontCache::Add(const char *file)
  */
 void FontCache::Remove(const char *file)
 {
-    _Resources.Remove(file);
+    FontMap::iterator it = _Resources.find(file);
+    _Resources.erase(it);
 }
 
 /**
@@ -42,5 +50,11 @@ void FontCache::Remove(const char *file)
  */
 sf::Font* FontCache::Get(const char *file)
 {
-    return _Resources.Get(file);
+    FontMap::iterator it = _Resources.find(file);
+    if(it == _Resources.end())
+    {
+        return nullptr;
+    }
+
+    return _Resources[file];
 }

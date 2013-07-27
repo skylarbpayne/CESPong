@@ -9,6 +9,8 @@
 #include "IResourceCache.h"
 #include <SFML/Audio.hpp>
 
+typedef std::unordered_map<const char*, sf::SoundBuffer*, eqstr, eqstr> SoundMap;
+
 class SoundCache : public IResourceCache<sf::SoundBuffer>
 {
 public:

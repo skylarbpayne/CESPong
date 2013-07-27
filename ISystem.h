@@ -15,7 +15,7 @@ class ISystem : public EntityAccessor
 {
 protected:
 	bool _Active;
-	std::string _Type;
+    const char* _Type;
 	std::list<unsigned int> _EntitiesToUpdate;
 public:
 	ISystem() : _Active(true) {};
@@ -23,7 +23,7 @@ public:
 	void Activate() { _Active = true; }
 	void Deactivate() { _Active = false; }
 	bool isActive() const { return _Active; }
-	std::string GetType() const { return _Type; }
+    const char* GetType() const { return _Type; }
     virtual void Update(unsigned long dt) = 0;
     virtual void ValidateEntity(unsigned int ID) = 0;
 };

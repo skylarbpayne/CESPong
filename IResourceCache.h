@@ -12,13 +12,13 @@ template<class T>
 class IResourceCache
 {
 protected:
-    HashTable<T*> _Resources;
+    std::unordered_map<const char*, T*, eqstr, eqstr> _Resources;
 public:
     /**
      * @brief IResourceCache initializes the resource hash table
      * @param size the size of the hash table
      */
-    IResourceCache(unsigned int size = 10) : _Resources(size) { }
+    IResourceCache(unsigned int buckets = 10) : _Resources(buckets) { }
 
     /**
      * @brief ~IResourceCache unloads all resources in the hash table
@@ -50,19 +50,5 @@ public:
      */
     void Unload()
     {
-        typename std::vector<std::list<std::pair<const char*, T*> > >::iterator fit;
-        typename std::list<std::pair<const char*, T*> >::iterator sit;
-
-        for(fit = _Resources.GetContainer().begin(); fit != _Resources.GetContainer().end(); fit++)
-        {
-            for(sit = fit->begin(); sit != fit->end(); sit++)
-            {
-                if(sit->second)
-                {
-                    delete (sit->second);
-                    (sit->second) = nullptr;
-                }
-            }
-        }
     }
 };

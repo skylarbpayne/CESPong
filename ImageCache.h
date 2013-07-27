@@ -11,6 +11,8 @@
 #include "IResourceCache.h"
 #include <SFML/Graphics.hpp>
 
+typedef std::unordered_map<const char*, sf::Image*, eqstr, eqstr> ImageMap;
+
 class ImageCache : public IResourceCache<sf::Image>
 {
 public:

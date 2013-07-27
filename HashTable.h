@@ -1,5 +1,5 @@
 /**
-    * HashTable implementation utilizing chaining to avoid collisions. The key used should be of type string
+    * Hash function and compare function to use c-string (const char*) strings as keys with unordered_map (Yay Lambda functions!)
     *
     * Author: Skylar Payne
     * Date: 7/18/2013
@@ -8,117 +8,32 @@
 
 #pragma once
 
-#include <vector>
-#include <list>
+#include <unordered_map>
 #include <cstring>
-#include <cstdlib>
 
-template<class T>
-class HashTable
+
+struct eqstr
 {
-private:
-    std::vector<std::list<std::pair<const char*, T> > > _HashTable;
-private:
     /**
-     * @brief Hash returns a hash of the string restricted to the size of the internal vector
-     *  Uses pwj implementation from: http://www.cs.carleton.edu/faculty/rkirchne/cs257/cs257/textutils-2.1/lib/hash-pjw.c
-     * @param key the key to hash
-     * @return a hash of the key
+     * @brief operator () Acts as a hash function for an unordered_map with c-string keys
+     * @param s the c-string to hash
+     * @return the hash of the c-string
      */
-    unsigned int Hash(const char* key)
+    inline size_t operator()(const char *s) const
     {
-        const char* s = key;
-        unsigned int h = 0;
-        unsigned int g;
-
-        while (*s != 0)
-        {
-            h = (h << 4) + *s++;
-            if ((g = h & (unsigned int) 0xf0000000) != 0)
-            h = (h ^ (g >> 24)) ^ g;
-        }
-
-        return (h % _HashTable.size());
+        size_t hash = 1;
+        for (; *s; ++s) hash = hash * 5 + *s;
+        return hash;
     }
 
     /**
-     * @brief Find finds a particular element in the hash table if it exists
-     * @param key the key of the element to find
-     * @param loc the location of the element if found
-     * @return true if the element was found, false otherwise.
+     * @brief operator () Acts as a c-string comparison operator
+     * @param s1 first c-string
+     * @param s2 second c-string
+     * @return true if the two c-strings are equivalent, false otherwise
      */
-    bool Find(const char* key, typename std::list<std::pair<const char*, T> >::iterator& loc)
+    inline bool operator()(const char *s1, const char *s2) const
     {
-        std::list<std::pair<const char*, T> > chain = _HashTable[Hash(key)];
-        typename std::list<std::pair<const char*, T> >::iterator it;
-        for(it = chain.begin(); it != chain.end(); it++)
-        {
-            if(strcmp(it->first, key) == 0)
-            {
-                loc = it;
-                return true;
-            }
-        }
-        return false;
-    }
-
-public:
-    /**
-     * @brief HashTable
-     * @param size the number of elements to initialize in the internal vector
-     */
-    HashTable(unsigned int size = 10) : _HashTable(size) { }
-
-    /**
-     * @brief GetContainer returns the internal hashtable container; a hack for iteration
-     * @return the hashtable container
-     */
-    std::vector<std::list<std::pair<const char*, T> > >& GetContainer() { return _HashTable; }
-
-    /**
-     * @brief Add adds an element into the hash table
-     * @param key the key for which to hash the element
-     * @param element the element to add
-     * @return true if successfully added or already existed, false otherwise
-     */
-    bool Add(const char* key, T element)
-    {
-        typename std::list<std::pair<const char*, T> >::iterator it;
-        if(Find(key, it))
-        {
-            return true;
-        }
-
-        _HashTable[Hash(key)].push_back(std::pair<const char*, T>(key, element));
-        return true;
-    }
-
-    /**
-     * @brief Remove removes an element from the hash table
-     * @param key the key of the element to remove
-     */
-    void Remove(const char* key)
-    {
-        typename std::list<std::pair<const char*, T> >::iterator loc;
-        if(Find(key, loc))
-        {
-            _HashTable[Hash(key)].erase(loc);
-        }
-    }
-
-    /**
-     * @brief Get gets an element from the hash table
-     * @param key the key of the element to get
-     * @return the element, if found, exits otherwise
-     */
-    T Get(const char* key)
-    {
-        typename std::list<std::pair<const char*, T> >::iterator loc;
-        if(Find(key, loc))
-        {
-            return loc->second;
-        }
-
-        exit(EXIT_FAILURE);
+        return strcmp(s1, s2) == 0;
     }
 };

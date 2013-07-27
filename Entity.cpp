@@ -46,6 +46,7 @@ bool Entity::AttachComponent(IComponent* comp)
 	}
 
 	_Components.push_back(comp);
+
 	return true;
 }
 

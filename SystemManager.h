@@ -10,7 +10,6 @@
 #pragma once
 
 #include <list>
-#include <string>
 #include <SFML/System.hpp>
 
 class ISystem;
@@ -22,11 +21,13 @@ private:
     unsigned long _LastTime;
     sf::Clock _SystemClock;
 	std::list<ISystem*> _Systems;
+private:
+    bool Find(const char* type, std::list<ISystem*>::iterator& loc);
 public:
     SystemManager() : _Active(true), _LastTime(0) {}
 	bool Add(ISystem* sys);
-	void Remove(std::string type);
-	bool Has(std::string type, std::list<ISystem*>::iterator& loc);
+    void Remove(const char* type);
+    bool Has(const char* type);
 	void Activate();
 	void Deactivate();
 	bool isActive() const;

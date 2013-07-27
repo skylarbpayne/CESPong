@@ -15,14 +15,21 @@
  */
 bool SoundCache::Add(const char *file)
 {
+    SoundMap::iterator it = _Resources.find(file);
+    if(it != _Resources.end())
+    {
+        return true;
+    }
+
     sf::SoundBuffer* newSound = new sf::SoundBuffer();
-    if(!newSound->loadFromFile(file) || !_Resources.Add(file, newSound))
+    if(!newSound->loadFromFile(file))
     {
         delete newSound;
         newSound = nullptr;
         return false;
     }
 
+    _Resources[file] = newSound;
     return true;
 }
 
@@ -32,7 +39,8 @@ bool SoundCache::Add(const char *file)
  */
 void SoundCache::Remove(const char *file)
 {
-    _Resources.Remove(file);
+    SoundMap::iterator it = _Resources.find(file);
+    _Resources.erase(it);
 }
 
 /**
@@ -42,5 +50,11 @@ void SoundCache::Remove(const char *file)
  */
 sf::SoundBuffer* SoundCache::Get(const char *file)
 {
-    return _Resources.Get(file);
+    SoundMap::iterator it = _Resources.find(file);
+    if(it == _Resources.end())
+    {
+        return nullptr;
+    }
+
+    return _Resources[file];
 }
