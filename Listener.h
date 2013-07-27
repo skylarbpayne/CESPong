@@ -15,7 +15,7 @@ template<class T>
 class Listener
 {
 private:
-    std::list<Listener<T>*> _Listeners;
+    static std::list<Listener<T>*> _Listeners;
 public:
     Listener() { _Listeners.push_back(this); }
     virtual ~Listener() { _Listeners.remove(this); }
@@ -34,3 +34,6 @@ public:
 
     }
 };
+
+template<class T>
+std::list<Listener<T>*> Listener<T>::_Listeners;
