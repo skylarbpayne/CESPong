@@ -8,6 +8,8 @@
 
 #include "SoundCache.h"
 
+#include "Logger.h"
+
 /**
  * @brief SoundCache::Add adds a sound into the cache
  * @param file the sound to add
@@ -18,6 +20,7 @@ bool SoundCache::Add(const char *file)
     SoundMap::iterator it = _Resources.find(file);
     if(it != _Resources.end())
     {
+        g_Logger << __FILE__ << ": " << __LINE__ << "-Error: " << file << " already exists in SoundCache\n";
         return true;
     }
 
@@ -26,10 +29,13 @@ bool SoundCache::Add(const char *file)
     {
         delete newSound;
         newSound = nullptr;
+
+        g_Logger << __FILE__ << ": " << __LINE__ << "-Error: " << file << " failed to load\n";
         return false;
     }
 
     _Resources[file] = newSound;
+    g_Logger << __FILE__ << ": " << __LINE__ << "-" << file << " was successfullly added to SoundCache\n";
     return true;
 }
 
@@ -40,7 +46,12 @@ bool SoundCache::Add(const char *file)
 void SoundCache::Remove(const char *file)
 {
     SoundMap::iterator it = _Resources.find(file);
-    _Resources.erase(it);
+
+    if(it != _Resources.end())
+    {
+        _Resources.erase(it);
+        g_Logger << __FILE__ << ": " << __LINE__ << "-" << file << " was removed from SoundCache\n";
+    }
 }
 
 /**

@@ -9,6 +9,8 @@
 #include "Entity.h"
 #include <cstring>
 
+#include "Logger.h"
+
 /**
  * @brief Entity::FindComponent finds a specified component
  * @param type the type of component to look for
@@ -36,17 +38,19 @@ bool Entity::AttachComponent(IComponent* comp)
 {
     if(comp == nullptr)
 	{
+        g_Logger << __FILE__ << ": " << __LINE__ << "-Error: component pointer was nullptr\n";
 		return false;
 	}
 
 	std::list<IComponent*>::iterator it;
     if(this->FindComponent(comp->GetType(), it))
 	{
+        g_Logger << __FILE__ << ": " << __LINE__ << "-Error: " << comp->GetType() << " already attached to Entity" << this->_ID << "\n";
 		return false;
 	}
 
 	_Components.push_back(comp);
-
+    g_Logger << __FILE__ << ": " << __LINE__ << "-" << comp->GetType() << " was added to Entity " << this->_ID << "\n";
 	return true;
 }
 
@@ -60,6 +64,7 @@ void Entity::RemoveComponent(const char* type)
     if(this->FindComponent(type, it))
 	{
 		_Components.erase(it);
+        g_Logger << __FILE__ << ": " << __LINE__ << "-" << type << " was removed from Entity " << this->_ID << "\n";
 	}
 }
 

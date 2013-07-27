@@ -8,6 +8,8 @@
 
 #include "FontCache.h"
 
+#include "Logger.h"
+
 /**
  * @brief FontCache::Add adds a font into the cache
  * @param file the font to add
@@ -18,6 +20,7 @@ bool FontCache::Add(const char *file)
     FontMap::iterator it = _Resources.find(file);
     if(it != _Resources.end())
     {
+        g_Logger << __FILE__ << ": " << __LINE__ << "-Error: " << file << " already exists in FontCache\n";
         return true;
     }
 
@@ -26,10 +29,13 @@ bool FontCache::Add(const char *file)
     {
         delete newFont;
         newFont = nullptr;
+
+        g_Logger << __FILE__ << ": " << __LINE__ << "-Error: " << file << " failed to load\n";
         return false;
     }
 
     _Resources[file] = newFont;
+    g_Logger << __FILE__ << ": " << __LINE__ << "-" << file << " was successfullly added to FontCache\n";
     return true;
 }
 
@@ -40,7 +46,12 @@ bool FontCache::Add(const char *file)
 void FontCache::Remove(const char *file)
 {
     FontMap::iterator it = _Resources.find(file);
-    _Resources.erase(it);
+
+    if(it != _Resources.end())
+    {
+        _Resources.erase(it);
+        g_Logger << __FILE__ << ": " << __LINE__ << "-" << file << " was removed from FontCache\n";
+    }
 }
 
 /**

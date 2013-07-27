@@ -34,26 +34,16 @@ Logger& Logger::operator<<(const int i)
 }
 
 /**
- * @brief Logger::operator << logs a short
- * @param s the short to log
+ * @brief Logger::operator << logs an unsigned integer
+ * @param i the integer to log
  * @return the global logger
  */
-Logger& Logger::operator<<(const short s)
+Logger& Logger::operator<<(const unsigned int i)
 {
-    std::cout << s;
+    std::cout << i;
     return g_Logger;
 }
 
-/**
- * @brief Logger::operator << logs a long
- * @param l the long to log
- * @return the global logger
- */
-Logger& Logger::operator<<(const long l)
-{
-    std::cout << l;
-    return g_Logger;
-}
 
 /**
  * @brief Logger::operator << logs a float
@@ -63,16 +53,5 @@ Logger& Logger::operator<<(const long l)
 Logger& Logger::operator<<(const float f)
 {
     std::cout << f;
-    return g_Logger;
-}
-
-/**
- * @brief Logger::operator << logs a double
- * @param d the double to log
- * @return the global logger
- */
-Logger& Logger::operator<<(const double d)
-{
-    std::cout << d;
     return g_Logger;
 }

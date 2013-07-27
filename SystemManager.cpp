@@ -11,6 +11,8 @@
 #include "ISystem.h"
 #include <cstring>
 
+#include "Logger.h"
+
 /**
  * @brief SystemManager::Find finds a specified system
  * @param type the type of system to look for
@@ -39,17 +41,19 @@ bool SystemManager::Add(ISystem* sys)
 {
     if(sys == nullptr)
 	{
+        g_Logger << __FILE__ << ": " << __LINE__ << "-Error: sys pointer was nullptr\n";
 		return false;
 	}
 
 	std::list<ISystem*>::iterator it;
     if(this->Find(sys->GetType(), it))
 	{
+        g_Logger << __FILE__ << ": " << __LINE__ << "-Error: " << sys->GetType() << " already exists in SystemManager\n";
 		return false;
 	}
 
 	_Systems.push_back(sys);
-
+    g_Logger << __FILE__ << ": " << __LINE__ << "-" << sys->GetType() << " was added to SystemManager\n";
 	return true;
 }
 
@@ -63,6 +67,7 @@ void SystemManager::Remove(const char* type)
     if(this->Find(type, it))
 	{
 		_Systems.erase(it);
+        g_Logger << __FILE__ << ": " << __LINE__ << "-" << type << " was removed from the SystemManager\n";
 	}
 }
 
