@@ -12,13 +12,14 @@ template<class T>
 class IResourceCache
 {
 protected:
+    const char* _Name;
     std::unordered_map<const char*, T*, eqstr, eqstr> _Resources;
 public:
     /**
      * @brief IResourceCache initializes the resource hash table
      * @param size the size of the hash table
      */
-    IResourceCache(unsigned int buckets = 10) : _Resources(buckets) { }
+    IResourceCache(const char* name, unsigned int buckets) : _Name(name), _Resources(buckets) { }
 
     /**
      * @brief ~IResourceCache unloads all resources in the hash table
