@@ -1,12 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include "EntityManager.h"
 #include "SystemManager.h"
+#include "BehaviorManager.h"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     SystemManager sm;
     EntityManager em;
+    BehaviorManager bm;
 
     while (window.isOpen())
     {
@@ -19,6 +21,7 @@ int main()
 
         window.clear();
         sm.Update();
+        bm.Update();
         window.display();
     }
 

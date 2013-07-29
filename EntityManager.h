@@ -11,7 +11,7 @@
 #include "EntityAccessor.h"
 #include "Listener.h"
 
-class EntityManager : public EntityAccessor, Listener<EntityMessage>
+class EntityManager : public EntityAccessor
 {
 private:
     std::list<unsigned int> _EntitySpaces;

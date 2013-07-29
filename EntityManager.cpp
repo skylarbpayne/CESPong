@@ -49,7 +49,7 @@ bool EntityManager::AddEntity(Entity *e)
         EntityMessage msg;
         msg.ID = e->_ID;
         msg.Destroyed = false;
-        this->Listener<EntityMessage>::Emit(msg);
+        Emit<EntityMessage>(msg);
 
         return true;
     }
@@ -65,7 +65,7 @@ bool EntityManager::AddEntity(Entity *e)
             EntityMessage msg;
             msg.ID = e->_ID;
             msg.Destroyed = false;
-            this->Listener<EntityMessage>::Emit(msg);
+            Emit<EntityMessage>(msg);
 
             _EntitySpaces.erase(it);
             return true;
@@ -99,6 +99,6 @@ void EntityManager::RemoveEntity(unsigned int ID)
         EntityMessage msg;
         msg.ID = ID;
         msg.Destroyed = true;
-        this->Listener<EntityMessage>::Emit(msg);
+        Emit<EntityMessage>(msg);
     }
 }

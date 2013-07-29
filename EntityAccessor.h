@@ -29,5 +29,5 @@ protected:
      * @brief GetEntities Gets the entire collection of entities
      * @return a vector of entities currently in play
      */
-    std::vector<Entity*> const& GetEntities() const { return s_Entities; }
+    std::vector<Entity*> const& GetEntities() { return s_Entities; }
 };
