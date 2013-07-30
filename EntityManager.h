@@ -9,7 +9,6 @@
 
 #include <list>
 #include "EntityAccessor.h"
-#include "Listener.h"
 
 class EntityManager : public EntityAccessor
 {

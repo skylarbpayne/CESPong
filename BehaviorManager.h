@@ -10,9 +10,9 @@
 
 #include "IBehavior.h"
 #include "EntityAccessor.h"
-#include "Listener.h"
+#include "IListener.h"
 
-class BehaviorManager : public EntityAccessor, public Listener<CollisionMessage>
+class BehaviorManager : public EntityAccessor, public IListener<CollisionMessage>
 {
 public:
     void Update();

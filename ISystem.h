@@ -10,9 +10,9 @@
 
 #include <list>
 #include "EntityAccessor.h"
-#include "Listener.h"
+#include "IListener.h"
 
-class ISystem : public EntityAccessor, public Listener<EntityMessage>
+class ISystem : public EntityAccessor, public IListener<EntityMessage>
 {
 protected:
 	bool _Active;

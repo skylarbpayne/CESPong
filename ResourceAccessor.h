@@ -14,7 +14,7 @@
 
 class ResourceAccessor
 {
-    friend class ResourceAllocator;
+    friend class ResourceManager;
 private:
     static FontCache _FontCache;
     static SoundCache _SoundCache;

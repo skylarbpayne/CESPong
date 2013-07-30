@@ -9,6 +9,7 @@
 
 #include "EntityManager.h"
 #include "Entity.h"
+#include "IListener.h"
 
 std::vector<Entity*> EntityAccessor::s_Entities;
 

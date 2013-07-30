@@ -12,7 +12,7 @@ FontCache ResourceAccessor::_FontCache;
 SoundCache ResourceAccessor::_SoundCache;
 TextureCache ResourceAccessor::_TextureCache;
 
-ResourceManager::~ResourceAllocator()
+ResourceManager::~ResourceManager()
 {
     UnloadFonts();
     UnloadSounds();
