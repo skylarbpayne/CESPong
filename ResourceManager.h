@@ -1,19 +1,19 @@
 /**
-    * The ResourceAllocator allows load and unload
+    * The ResourceManager allows loading and unloading of resources
     *
     * Author: Skylar Payne
     * Date: 7/30/2013
-    * File: ResourceAllocator.h
+    * File: ResourceManager.h
 **/
 
 #pragma once
 
 #include "ResourceAccessor.h"
 
-class ResourceAllocator
+class ResourceManager
 {
 public:
-    ~ResourceAllocator();
+    ~ResourceManager();
 
     bool AddFont(const char* file);
     void RemoveFont(const char* file);
