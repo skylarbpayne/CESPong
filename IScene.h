@@ -12,7 +12,6 @@ class IScene
 {
     friend class SceneManager;
 protected:
-    virtual ~IScene() { Unload(); }
     virtual bool Load() = 0;
     virtual void Update() = 0;
     virtual void Unload() = 0;

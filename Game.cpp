@@ -45,6 +45,7 @@ void Game::Quit()
 
     if(WindowAccessor::s_RenderWindow)
     {
+        WindowAccessor::s_RenderWindow->close();
         delete WindowAccessor::s_RenderWindow;
         WindowAccessor::s_RenderWindow = nullptr;
     }

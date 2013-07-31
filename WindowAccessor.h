@@ -20,5 +20,5 @@ protected:
      * @brief GetWindow gets the main window
      * @return the main window, if set, nullptr otherwise
      */
-    sf::RenderWindow const* GetWindow() const { return s_RenderWindow; }
+    sf::RenderWindow *const GetWindow() const { return s_RenderWindow; }
 };

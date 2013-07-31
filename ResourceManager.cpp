@@ -17,9 +17,7 @@ TextureCache ResourceAccessor::_TextureCache;
  */
 ResourceManager::~ResourceManager()
 {
-    UnloadFonts();
-    UnloadSounds();
-    UnloadTextures();
+    Unload();
 }
 
 /**
@@ -101,4 +99,14 @@ void ResourceManager::RemoveTexture(const char *file)
 void ResourceManager::UnloadTextures()
 {
     ResourceAccessor::_TextureCache.Unload();
+}
+
+/**
+ * @brief ResourceManager::Unload unloads all resources
+ */
+void ResourceManager::Unload()
+{
+    this->UnloadFonts();
+    this->UnloadSounds();
+    this->UnloadTextures();
 }

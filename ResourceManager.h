@@ -26,4 +26,6 @@ public:
     bool AddTexture(const char* file);
     void RemoveTexture(const char* file);
     void UnloadTextures();
+
+    void Unload();
 };
