@@ -49,3 +49,9 @@ void Game::Quit()
         WindowAccessor::s_RenderWindow = nullptr;
     }
 }
+
+void Game::OnMessage(ExitMessage& msg)
+{
+    _ExitStatus = msg.ExitStatus;
+    _Running = false;
+}

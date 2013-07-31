@@ -11,7 +11,7 @@
 #include "SceneManager.h"
 #include "IListener.h"
 
-class Game
+class Game : public IListener<ExitMessage>
 {
 private:
     bool _Running;
@@ -30,4 +30,6 @@ public:
      * @return the exit status
      */
     int GetExitStatus() const { return _ExitStatus; }
+
+    void OnMessage(ExitMessage& msg);
 };

@@ -39,3 +39,11 @@ struct ChangeSceneMessage
 {
     IScene* NextScene;
 };
+
+/**
+ * @brief The ExitMessage struct carries the exit status (to denote success or failure) for when the game exits
+ */
+struct ExitMessage
+{
+    int ExitStatus;
+};
