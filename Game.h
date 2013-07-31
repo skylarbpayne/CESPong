@@ -17,6 +17,8 @@ private:
     bool _Running;
     int _ExitStatus;
     SceneManager _SceneManager;
+private:
+    void OnMessage(ExitMessage& msg);
 public:
     Game() : _Running(true), _ExitStatus(0) { }
     ~Game() { Quit(); }
@@ -30,6 +32,4 @@ public:
      * @return the exit status
      */
     int GetExitStatus() const { return _ExitStatus; }
-
-    void OnMessage(ExitMessage& msg);
 };

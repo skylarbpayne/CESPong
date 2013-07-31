@@ -18,6 +18,7 @@ private:
     IScene* _NextScene;
 private:
     void ChangeScene();
+    void OnMessage(ChangeSceneMessage& msg) override;
 public:
     SceneManager() : _CurrentScene(nullptr), _NextScene(nullptr) { }
     ~SceneManager();
@@ -25,6 +26,4 @@ public:
     bool Init(IScene* startScene);
     void Update();
     void Quit();
-
-    void OnMessage(ChangeSceneMessage& msg);
 };

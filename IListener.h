@@ -21,7 +21,7 @@ private:
 public:
     IListener() { _Listeners.push_back(this); }
     virtual ~IListener() { _Listeners.remove(this); }
-
+private:
     virtual void OnMessage(T& msg) = 0;
     friend void Emit<T>(T& msg);
 };

@@ -51,6 +51,10 @@ void Game::Quit()
     }
 }
 
+/**
+ * @brief Game::OnMessage catches the exit message to safely shut down the game
+ * @param msg contains the exit status
+ */
 void Game::OnMessage(ExitMessage& msg)
 {
     _ExitStatus = msg.ExitStatus;

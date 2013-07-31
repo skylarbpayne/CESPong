@@ -14,7 +14,8 @@
 
 class BehaviorManager : public EntityAccessor, public IListener<CollisionMessage>
 {
+private:
+    void OnMessage(CollisionMessage& msg) override;
 public:
     void Update();
-    void OnMessage(CollisionMessage& msg) override;
 };

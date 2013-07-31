@@ -18,6 +18,8 @@ protected:
 	bool _Active;
     const char* _Type;
 	std::list<unsigned int> _EntitiesToUpdate;
+private:
+    void OnMessage(EntityMessage& msg) override;
 public:
     ISystem() : _Active(true) { };
     virtual ~ISystem() {}
@@ -27,8 +29,6 @@ public:
     const char* GetType() const { return _Type; }
     virtual void Update(unsigned long dt) = 0;
     virtual bool ValidateEntity(unsigned int ID) = 0;
-
-    void OnMessage(EntityMessage &msg) override;
 };
 
 /**
