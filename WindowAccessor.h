@@ -12,7 +12,7 @@
 
 class WindowAccessor
 {
-friend class Engine;
+friend class Game;
 private:
     static sf::RenderWindow* s_RenderWindow;
 protected:
