@@ -29,3 +29,13 @@ struct CollisionMessage
     unsigned int ID2;
     sf::Vector2f norm;
 };
+
+class IScene;
+
+/**
+ * @brief The ChangeSceneMessage struct carries the NextScene-obviously essential for changing scenes.
+ */
+struct ChangeSceneMessage
+{
+    IScene* NextScene;
+};

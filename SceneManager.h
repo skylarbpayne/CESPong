@@ -11,7 +11,7 @@
 #include "IListener.h"
 #include "IScene.h"
 
-class SceneManager
+class SceneManager : public IListener<ChangeSceneMessage>
 {
 private:
     IScene* _CurrentScene;
@@ -25,4 +25,6 @@ public:
     bool Init(IScene* startScene);
     void Update();
     void Quit();
+
+    void OnMessage(ChangeSceneMessage& msg);
 };

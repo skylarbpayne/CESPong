@@ -84,3 +84,8 @@ void SceneManager::ChangeScene()
 
     _CurrentScene->Load();
 }
+
+void SceneManager::OnMessage(ChangeSceneMessage& msg)
+{
+    _NextScene = msg.NextScene;
+}
