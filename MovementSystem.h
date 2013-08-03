@@ -14,6 +14,7 @@
 class MovementSystem : public ISystem, public IListener<MoveEntityMessage>, public IListener<PushEntityMessage>
 {
 public:
+    MovementSystem() : ISystem("Movement") { }
     void Update(unsigned int dt) override;
     bool ValidateEntity(unsigned int ID) override;
 

@@ -16,6 +16,9 @@
 #include "LuaBindings.h"
 #include "Logger.h"
 
+#include "PositionComponent.h"
+#include "MovementComponent.h"
+#include "MovementSystem.h"
 #include "RenderComponent.h"
 #include "Entity.h"
 #include "RenderSystem.h"
@@ -24,9 +27,15 @@ bool TestScene::Load()
 {
     RenderSystem* rs = new RenderSystem();
     sm.Add(rs);
+    MovementSystem* ms = new MovementSystem();
+    sm.Add(ms);
 
     Entity* e = new Entity();
+    PositionComponent* pc = new PositionComponent();
+    MovementComponent* mc = new MovementComponent();
     RenderComponent* rc = new RenderComponent();
+    e->AttachComponent(pc);
+    e->AttachComponent(mc);
     e->AttachComponent(rc);
     em.AddEntity(e);
 
