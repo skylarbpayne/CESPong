@@ -24,6 +24,36 @@ static int Exit(lua_State* L)
     Emit<ExitMessage>(msg);
     return msg.ExitStatus;
 }
+
+/**
+ * @brief MoveEntity Lets lua emit a MoveEntity message
+ * @param L the thread to run the function on
+ * @return 0
+ */
+static int MoveEntity(lua_State* L)
+{
+    MoveEntityMessage msg;
+    msg.ID = lua_tonumber(L, 1);
+    msg.newPosition.x = lua_tonumber(L, 2);
+    msg.newPosition.y = lua_tonumber(L, 3);
+    Emit<MoveEntityMessage>(msg);
+    return 0;
+}
+
+/**
+ * @brief PushEntity Lets lua emit a PushEntity message
+ * @param L the thread to run the function on
+ * @return 0
+ */
+static int PushEntity(lua_State* L)
+{
+    PushEntityMessage msg;
+    msg.ID = lua_tonumber(L, 1);
+    msg.newVelocity.x = lua_tonumber(L, 2);
+    msg.newVelocity.y = lua_tonumber(L, 3);
+    Emit<PushEntityMessage>(msg);
+    return 0;
+}
 }
 
 /**
