@@ -47,3 +47,13 @@ struct ExitMessage
 {
     int ExitStatus;
 };
+
+/**
+ * @brief The EntityMovedMessage struct carries the ID of an entity that moved along with its old and new positions
+ */
+struct EntityMovedMessage
+{
+    unsigned int ID;
+    sf::Vector2f oldPosition;
+    sf::Vector2f newPosition;
+};

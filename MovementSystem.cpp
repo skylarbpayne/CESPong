@@ -28,7 +28,11 @@ void MovementSystem::Update(unsigned int dt)
 
         pc->SetPosition(pos.x + vel.x, pos.y + vel.y);
 
-        //Emit message
+        EntityMovedMessage msg;
+        msg.ID = (*it);
+        msg.oldPosition = pos;
+        msg.newPosition = pc->GetPosition();
+        Emit<EntityMovedMessage>(msg);
     }
 }
 
