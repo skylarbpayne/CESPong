@@ -21,7 +21,7 @@ protected:
 private:
     void OnMessage(EntityMessage& msg) override;
 public:
-    ISystem() : _Active(true) { };
+    ISystem() : _Active(true) { }
     virtual ~ISystem() {}
 	void Activate() { _Active = true; }
 	void Deactivate() { _Active = false; }
@@ -35,7 +35,7 @@ public:
  * @brief ISystem::OnMessage When a new entity is added or destroyed, this will determine whether to add/remove entity from list
  * @param msg the message data
  */
-void ISystem::OnMessage(EntityMessage &msg)
+inline void ISystem::OnMessage(EntityMessage &msg)
 {
     if(msg.Destroyed)
     {

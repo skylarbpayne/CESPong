@@ -14,10 +14,10 @@ void RenderSystem::Update(unsigned int dt)
 
     for(it = _EntitiesToUpdate.begin(); it != _EntitiesToUpdate.end(); ++it)
     {
-        Entity* e = this->GetEntity(*it); //??? Helpz?
+        Entity* e = this->GetEntity(*it);
 
         RenderComponent* rc = e->GetComponent<RenderComponent>("Render");
-//        this->GetWindow()->draw(rc->GetShape()); // Here's the error... - Caleb
+        this->GetWindow()->draw(rc->GetShape());
 
     }
 }

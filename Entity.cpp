@@ -99,23 +99,6 @@ bool Entity::HasComponent(const char* type)
 }
 
 /**
- * @brief Entity::GetComponent templated method to get a Component
- * @param type the type of component to get
- * @return the component, if found, nullptr otherwise.
- */
-template<class T>
-T* Entity::GetComponent(const char* type)
-{
-    std::list<IComponent*>::iterator it;
-    if(this->FindComponent(type, it))
-    {
-        return static_cast<T>(*it);
-    }
-
-    return nullptr;
-}
-
-/**
  * @brief Entity::AttachBehavior attaches a behavior to an entity
  * @param beh the behavior to attach
  * @return true if the behavior was attached, false otherwise
