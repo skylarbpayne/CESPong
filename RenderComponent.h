@@ -1,3 +1,10 @@
+/** Render Component Header
+ *
+ * @author      Caleb Geiger
+ * Created:     8-2-2013
+ * Source File:  RenderComponent.h
+ */
+
 #pragma once
 
 #include "IComponent.h"
@@ -11,7 +18,11 @@ using namespace sf;
 class RenderComponent : public IComponent
 {
 private:
-	CircleShape _Circle;
+    CircleShape _Circle;
 public:
-	RenderComponent() : IComponent("Render") { }
+    RenderComponent() : IComponent("Render") { }
+    CircleShape const GetShape()
+    {
+        return _Circle;
+    }
 };
