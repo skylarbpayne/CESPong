@@ -57,3 +57,21 @@ struct EntityMovedMessage
     sf::Vector2f oldPosition;
     sf::Vector2f newPosition;
 };
+
+/**
+ * @brief The MoveEntityMessage struct notifies appropriate systems to move a specific entity
+ */
+struct MoveEntityMessage
+{
+    unsigned int ID;
+    sf::Vector2f newPosition;
+};
+
+/**
+ * @brief The PushEntityMessage struct notifies appropriate systems to move a specific entity
+ */
+struct PushEntityMessage
+{
+    unsigned int ID;
+    sf::Vector2f newVelocity;
+};

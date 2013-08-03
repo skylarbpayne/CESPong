@@ -12,6 +12,10 @@
 #include "MovementComponent.h"
 #include "PositionComponent.h"
 
+/**
+ * @brief MovementSystem::Update Updates all entities with position and movement components
+ * @param dt the time splice between frames
+ */
 void MovementSystem::Update(unsigned int dt)
 {
     std::list<unsigned int>::iterator it;
@@ -36,9 +40,42 @@ void MovementSystem::Update(unsigned int dt)
     }
 }
 
+/**
+ * @brief MovementSystem::ValidateEntity validates an entity for updating
+ * @param ID the entity to validate
+ * @return true if validated, false otherwise
+ */
 bool MovementSystem::ValidateEntity(unsigned int ID)
 {
     Entity* e = this->GetEntity(ID);
 
     return (e->HasComponent("Position") && e->HasComponent("Movement"));
+}
+
+/**
+ * @brief MovementSystem::OnMessage Updates an entity's position
+ * @param msg contains ID and newPosition
+ */
+void MovementSystem::OnMessage(MoveEntityMessage& msg)
+{
+    Entity* e = this->GetEntity(msg.ID);
+    PositionComponent* pc = e->GetComponent<PositionComponent>("Position");
+
+    EntityMovedMessage newMsg;
+    newMsg.ID = msg.ID;
+    newMsg.oldPosition = pc->GetPosition();
+    newMsg.newPosition = msg.newPosition;
+
+    pc->SetPosition(msg.newPosition.x, msg.newPosition.y);
+    Emit<EntityMovedMessage>(newMsg);
+}
+
+/**
+ * @brief MovementSystem::OnMessage Updates an entity's velocity
+ * @param msg contains ID and newVelocity
+ */
+void MovementSystem::OnMessage(PushEntityMessage& msg)
+{
+    Entity* e = this->GetEntity(msg.ID);
+    e->GetComponent<MovementComponent>("Movement")->SetVelocity(msg.newVelocity.x, msg.newVelocity.y);
 }

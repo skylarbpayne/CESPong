@@ -11,9 +11,12 @@
 #include "IListener.h"
 #include "ISystem.h"
 
-class MovementSystem : public ISystem
+class MovementSystem : public ISystem, public IListener<MoveEntityMessage>, public IListener<PushEntityMessage>
 {
 public:
     void Update(unsigned int dt) override;
     bool ValidateEntity(unsigned int ID) override;
+
+    void OnMessage(MoveEntityMessage& msg) override;
+    void OnMessage(PushEntityMessage& msg) override;
 };
