@@ -14,9 +14,9 @@ class EntityManager : public EntityAccessor
 {
 private:
     std::list<unsigned int> _EntitySpaces;
-private:
-    bool AddEntity(Entity* e);
-    void RemoveEntity(unsigned int ID);
 public:
     ~EntityManager();
+
+    bool AddEntity(Entity* e);
+    void RemoveEntity(unsigned int ID);
 };

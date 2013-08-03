@@ -1,4 +1,13 @@
+
+
 #include "TestScene.h"
+/**
+    * TestScene is the hub to test all code changes.
+    *
+    * Author: Skylar Payne
+    * Date: 7/31/2013
+    * File: TestScene.h
+**/
 
 #include <SFML/Graphics.hpp>
 #include "IListener.h"
@@ -7,16 +16,25 @@
 #include "LuaBindings.h"
 #include "Logger.h"
 
+#include "RenderComponent.h"
+#include "Entity.h"
+#include "RenderSystem.h"
+
 bool TestScene::Load()
 {
+    RenderSystem* rs = new RenderSystem();
+    sm.Add(rs);
+
+    Entity* e = new Entity();
+    RenderComponent* rc = new RenderComponent();
+    e->AttachComponent(rc);
+    em.AddEntity(e);
+
     return true;
 }
 
 void TestScene::Update()
 {
-    sm.Update();
-    bm.Update();
-
     sf::Event event;
     while(this->GetWindow()->pollEvent(event))
     {
@@ -44,6 +62,8 @@ void TestScene::Update()
     }
 
     this->GetWindow()->clear();
+    sm.Update();
+    bm.Update();
     this->GetWindow()->display();
 }
 

@@ -16,6 +16,8 @@ private:
     const char* _Type;
 public:
     IBehavior(const char* type = "Behavior") : _Type(type) { }
+    virtual ~IBehavior() { }
+
     const char* GetType() const { return _Type; }
 
     virtual void Update() = 0;

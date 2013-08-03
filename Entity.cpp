@@ -12,6 +12,38 @@
 #include "Logger.h"
 
 /**
+ * @brief Entity::~Entity Deallocates all components and behaviors
+ */
+Entity::~Entity()
+{
+    std::list<IComponent*>::iterator cit;
+
+    for(cit = _Components.begin(); cit != _Components.end(); cit++)
+    {
+        if(*cit)
+        {
+            delete (*cit);
+            (*cit) = nullptr;
+        }
+    }
+
+    _Components.clear();
+
+    std::list<IBehavior*>::iterator bit;
+
+    for(bit = _Behaviors.begin(); bit != _Behaviors.end(); bit++)
+    {
+        if(*bit)
+        {
+            delete (*bit);
+            (*bit) = nullptr;
+        }
+    }
+
+    _Behaviors.clear();
+}
+
+/**
  * @brief Entity::FindComponent finds a specified component
  * @param type the type of component to look for
  * @param loc the location of the component if found

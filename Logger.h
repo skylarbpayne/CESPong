@@ -19,6 +19,8 @@ public:
     Logger& operator<<(const int i);
     Logger& operator<<(const unsigned int i);
     Logger& operator<<(const float f);
+
+    void flush();
 };
 
 extern Logger g_Logger;

@@ -25,6 +25,8 @@ private:
     bool Find(const char* type, std::list<ISystem*>::iterator& loc);
 public:
     SystemManager() : _Active(true), _LastTime(0) {}
+    ~SystemManager();
+
 	bool Add(ISystem* sys);
     void Remove(const char* type);
     bool Has(const char* type);

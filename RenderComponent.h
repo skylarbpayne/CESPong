@@ -20,7 +20,7 @@ class RenderComponent : public IComponent
 private:
     CircleShape _Circle;
 public:
-    RenderComponent() : IComponent("Render") { }
+    RenderComponent() : IComponent("Render") { _Circle.setRadius(4); _Circle.setFillColor(sf::Color::Red); }
     CircleShape const GetShape()
     {
         return _Circle;

@@ -69,6 +69,7 @@ bool EntityManager::AddEntity(Entity *e)
             Emit<EntityMessage>(msg);
 
             _EntitySpaces.erase(it);
+
             return true;
         }
 
@@ -77,6 +78,7 @@ bool EntityManager::AddEntity(Entity *e)
             _EntitySpaces.erase(it);
         }
     }
+
     return false;
 }
 

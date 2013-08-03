@@ -14,6 +14,23 @@
 #include "Logger.h"
 
 /**
+ * @brief SystemManager::~SystemManager deallocates all systems
+ */
+SystemManager::~SystemManager()
+{
+    std::list<ISystem*>::iterator it;
+
+    for(it = _Systems.begin(); it != _Systems.end(); it++)
+    {
+        if(*it)
+        {
+            delete (*it);
+            (*it) = nullptr;
+        }
+    }
+}
+
+/**
  * @brief SystemManager::Find finds a specified system
  * @param type the type of system to look for
  * @param loc the location of the system, if found
@@ -54,6 +71,7 @@ bool SystemManager::Add(ISystem* sys)
 
 	_Systems.push_back(sys);
     g_Logger << __FILE__ << ": " << __LINE__ << "-" << sys->GetType() << " was added to SystemManager\n";
+    g_Logger.flush();
 	return true;
 }
 

@@ -1,3 +1,11 @@
+/**
+    * TestScene is the hub to test all code changes.
+    *
+    * Author: Skylar Payne
+    * Date: 7/31/2013
+    * File: TestScene.h
+**/
+
 #pragma once
 
 #include "IScene.h"

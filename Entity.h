@@ -24,6 +24,8 @@ private:
     bool FindComponent(const char* type, std::list<IComponent*>::iterator& loc);
     bool FindBehavior(const char* type, std::list<IBehavior*>::iterator& loc);
 public:
+    ~Entity();
+
     bool AttachComponent(IComponent* comp);
     void RemoveComponent(const char* type);
     bool HasComponent(const char* type);

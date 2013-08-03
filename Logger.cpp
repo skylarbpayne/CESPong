@@ -55,3 +55,11 @@ Logger& Logger::operator<<(const float f)
     std::cout << f;
     return g_Logger;
 }
+
+/**
+ * @brief Logger::flush flushes all streams to which the logger writes
+ */
+void Logger::flush()
+{
+    std::cout.flush();
+}
