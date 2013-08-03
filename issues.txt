@@ -1,0 +1,5 @@
+1) PositionComponent.h -> SetPosition uses ints, should use floats
+2) RenderComponent.h -> Accessor uses copy constructor
+3) RenderComponent.h -> Needs accessors aside like SetColor and SetRadius
+4) LuaBindings.cpp -> Need bindings to gain access to keystates
+5) IComponent.h -> Needs a "require" virtual method. (ie MovementComponent requires Position,etc)
