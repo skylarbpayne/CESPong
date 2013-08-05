@@ -9,6 +9,19 @@
 #include "BehaviorManager.h"
 #include "Entity.h"
 
+#include <lua.hpp>
+#include "LuaBindings.h"
+#include "ScriptableBehavior.h"
+
+/**
+ * @brief BehaviorManager::BehaviorManager sets up a lua thread for scriptable behaviors to use.
+ */
+BehaviorManager::BehaviorManager()
+{
+    ScriptableBehavior::s_L = luaL_newstate();
+    SetBindings(ScriptableBehavior::s_L);
+}
+
 /**
  * @brief BehaviorManager::Update updates all behaviors of all entities
  */

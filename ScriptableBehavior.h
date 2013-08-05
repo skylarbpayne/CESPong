@@ -19,7 +19,7 @@ private:
     const char* _Script;
     static lua_State* s_L;
 public:
-    ScriptableBehavior(const char* type = "Script") : IBehavior(type) { }
+    ScriptableBehavior(const char* type = "Script", const char* script = "") : IBehavior(type), _Script(script) { }
     ~ScriptableBehavior();
 
     void Update();
