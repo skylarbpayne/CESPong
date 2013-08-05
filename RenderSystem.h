@@ -9,10 +9,13 @@
 
 #include "ISystem.h"
 #include "WindowAccessor.h"
+#include "IListener.h"
 
 
-class RenderSystem : public ISystem, public WindowAccessor
+class RenderSystem : public ISystem, public WindowAccessor, IListener<EntityMovedMessage>
 {
+private:
+    void OnMessage(EntityMovedMessage& msg) override;
 public:
     RenderSystem() : ISystem("Render") { }
     void Update(unsigned int dt) override;

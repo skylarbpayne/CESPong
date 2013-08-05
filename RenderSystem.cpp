@@ -28,3 +28,10 @@ bool RenderSystem::ValidateEntity(unsigned int ID)
 
     return e->HasComponent("Render");
 }
+
+void RenderSystem::OnMessage(EntityMovedMessage& msg)
+{
+    Entity* e = this->GetEntity(msg.ID);
+    RenderComponent* rc = e->GetComponent<RenderComponent>("Render");
+    rc->_Circle.setPosition(msg.newPosition);
+}

@@ -17,6 +17,7 @@ using namespace sf;
 
 class RenderComponent : public IComponent
 {
+friend class RenderSystem;
 private:
     CircleShape _Circle;
 public:
