@@ -21,7 +21,7 @@ private:
 private:
     void LoadFile();
 public:
-    ScriptableBehavior(const char* script, const char* type) : _Script(script), IBehavior(type) { }
+    ScriptableBehavior(const char* type, const char* script) : IBehavior(type), _Script(script) { }
     ~ScriptableBehavior() { }
 
     void Update() override;

@@ -35,7 +35,7 @@ bool TestScene::Load()
     PositionComponent* pc = new PositionComponent();
     MovementComponent* mc = new MovementComponent();
     RenderComponent* rc = new RenderComponent();
-    ScriptableBehavior* sb = new ScriptableBehavior("move.lua", "Move");
+    ScriptableBehavior* sb = new ScriptableBehavior("Move", "move.lua");
     e->AttachComponent(pc);
     e->AttachComponent(mc);
     e->AttachComponent(rc);
