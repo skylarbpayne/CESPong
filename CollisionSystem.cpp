@@ -104,6 +104,13 @@ void CollisionSystem::Update(unsigned int dt)
                 msg.newPosition.x = p1->GetPosition().x - norm.x;
                 msg.newPosition.y = p1->GetPosition().y - norm.y;
                 Emit<MoveEntityMessage>(msg);
+
+                CollisionMessage cmsg;
+                cmsg.ID1 = *mit;
+                cmsg.ID2 = *eit;
+                cmsg.norm.x = norm.x;
+                cmsg.norm.y = norm.y;
+                Emit<CollisionMessage>(cmsg);
             }
 
         }
