@@ -84,7 +84,7 @@ void CollisionSystem::Update(unsigned int dt)
     std::list<unsigned int>::iterator mit;
     std::list<unsigned int>::iterator eit;
 
-    for(mit = _MovedEntities.begin(); mit != _MovedEntities.end(); mit++)
+    for(mit = _MovedEntities.begin(); mit != _MovedEntities.end();)
     {
         for(eit = _EntitiesToUpdate.begin(); eit != _EntitiesToUpdate.end(); eit++)
         {
@@ -101,12 +101,14 @@ void CollisionSystem::Update(unsigned int dt)
             {
                 MoveEntityMessage msg;
                 msg.ID = *mit;
-                msg.newPosition.x = p1->GetPosition().x + norm.x;
-                msg.newPosition.y = p1->GetPosition().y + norm.y;
+                msg.newPosition.x = p1->GetPosition().x - norm.x;
+                msg.newPosition.y = p1->GetPosition().y - norm.y;
                 Emit<MoveEntityMessage>(msg);
             }
 
         }
+        std::list<unsigned int>::iterator temp = mit++;
+        _MovedEntities.erase(temp);
     }
 }
 
