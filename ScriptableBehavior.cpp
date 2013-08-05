@@ -8,21 +8,33 @@
 
 #include "ScriptableBehavior.h"
 #include <lua.hpp>
+#include "Entity.h"
 
 #include "Logger.h"
 
 lua_State* ScriptableBehavior::s_L;
 
 /**
- * @brief ScriptableBehavior::Update Executes an update function from a lua script.
+ * @brief ScriptableBehavior::LoadFile loads a file, and parent ID into lua's global table
  */
-void ScriptableBehavior::Update()
+void ScriptableBehavior::LoadFile()
 {
     if(luaL_dofile(s_L, _Script))
     {
         g_Logger << __FILE__ << ": " << __LINE__ << "-" << lua_tostring(s_L, -1) << "\n";
         lua_pop(s_L, 1);
     }
+
+    lua_pushnumber(s_L, this->GetParent()->GetID());
+    lua_setglobal(s_L, "ID");
+}
+
+/**
+ * @brief ScriptableBehavior::Update Executes an update function from a lua script
+ */
+void ScriptableBehavior::Update()
+{
+    this->LoadFile();
 
     lua_getglobal(s_L, "Update");
     lua_pcall(s_L, 0, 0, 0);
@@ -35,11 +47,7 @@ void ScriptableBehavior::Update()
  */
 void ScriptableBehavior::OnCollide(unsigned int ID, sf::Vector2f& norm)
 {
-    if(luaL_dofile(s_L, _Script))
-    {
-        g_Logger << __FILE__ << ": " << __LINE__ << "-" << lua_tostring(s_L, -1) << "\n";
-        lua_pop(s_L, 1);
-    }
+    this->LoadFile();
 
     lua_getglobal(s_L, "OnCollide");
     lua_pushnumber(s_L, ID);

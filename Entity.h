@@ -26,6 +26,8 @@ private:
 public:
     ~Entity();
 
+    unsigned int GetID() const { return _ID; }
+
     bool AttachComponent(IComponent* comp);
     void RemoveComponent(const char* type);
     bool HasComponent(const char* type);

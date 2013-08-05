@@ -18,6 +18,8 @@ friend class BehaviorManager;
 private:
     const char* _Script;
     static lua_State* s_L;
+private:
+    void LoadFile();
 public:
     ScriptableBehavior(const char* type = "Script", const char* script = "") : IBehavior(type), _Script(script) { }
     ~ScriptableBehavior();
