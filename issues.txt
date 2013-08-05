@@ -2,6 +2,6 @@
 2) RenderComponent.h -> Accessor uses copy constructor
 3) RenderComponent.h -> Needs accessors aside like SetColor and SetRadius
 *4) LuaBindings.cpp -> Need bindings to gain access to keystates
-5) IComponent.h -> Needs a "require" virtual method. (ie MovementComponent requires Position,etc)
+x5) IComponent.h -> Needs a "require" virtual method. (ie MovementComponent requires Position,etc)
 6) RenderSystem.h -> Listen to EntityMovedMessage. Update position of graphical component
 *7) MovementSystem.h -> Default constructor needed to call ISystem constructor
