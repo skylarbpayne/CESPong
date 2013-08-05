@@ -13,8 +13,8 @@ class Entity;
 class IComponent
 {
 friend class Entity;
-protected:
-	Entity* p_Parent;
+private:
+    Entity* _Parent;
     const char* _Type;
 public:
     IComponent(const char* type) : _Type(type) {};
@@ -24,7 +24,7 @@ public:
         * @brief IComponent::GetParent Returns the parent entity to which this component is attached
 		* @return the parent entity to which this component is attached
 	**/
-	Entity const* GetParent() const { return p_Parent; }
+    Entity const* GetParent() const { return _Parent; }
 
 	/**
         * @brief IComponent::GetType Returns the type of this component

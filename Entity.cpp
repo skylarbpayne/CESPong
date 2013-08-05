@@ -101,6 +101,8 @@ bool Entity::AttachComponent(IComponent* comp)
 	}
 
 	_Components.push_back(comp);
+    comp->_Parent = this;
+
     g_Logger << __FILE__ << ": " << __LINE__ << "-" << comp->GetType() << " was added to Entity " << this->_ID << "\n";
 	return true;
 }
@@ -151,6 +153,8 @@ bool Entity::AttachBehavior(IBehavior* beh)
     }
 
     _Behaviors.push_back(beh);
+    beh->_Parent = this;
+
     g_Logger << __FILE__ << ": " << __LINE__ << "-" << beh->GetType() << " was added to Entity " << this->_ID << "\n";
     return true;
 }
