@@ -21,7 +21,7 @@ void ScriptableBehavior::LoadFile()
 {
     if(luaL_dofile(s_L, _Script))
     {
-        g_Logger << __FILE__ << ": " << __LINE__ << "-" << lua_tostring(s_L, -1) << "\n";
+        g_Logger << lua_tostring(s_L, -1) << "\n";
         lua_pop(s_L, 1);
     }
 
@@ -37,7 +37,11 @@ void ScriptableBehavior::Update()
     this->LoadFile();
 
     lua_getglobal(s_L, "Update");
-    lua_pcall(s_L, 0, 0, 0);
+    if(lua_pcall(s_L, 0, 0, 0))
+    {
+        g_Logger << lua_tostring(s_L, -1) << "\n";
+        lua_pop(s_L, 1);
+    }
 }
 
 /**

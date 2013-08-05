@@ -21,9 +21,9 @@ private:
 private:
     void LoadFile();
 public:
-    ScriptableBehavior(const char* type = "Script", const char* script = "") : IBehavior(type), _Script(script) { }
-    ~ScriptableBehavior();
+    ScriptableBehavior(const char* script, const char* type) : _Script(script), IBehavior(type) { }
+    ~ScriptableBehavior() { }
 
-    void Update();
-    void OnCollide(unsigned int ID, sf::Vector2f& norm);
+    void Update() override;
+    void OnCollide(unsigned int ID, sf::Vector2f& norm) override;
 };

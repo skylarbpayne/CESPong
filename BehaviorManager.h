@@ -18,5 +18,7 @@ private:
     void OnMessage(CollisionMessage& msg) override;
 public:
     BehaviorManager();
+    ~BehaviorManager();
+
     void Update();
 };

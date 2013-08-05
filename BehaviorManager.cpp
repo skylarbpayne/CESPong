@@ -23,6 +23,14 @@ BehaviorManager::BehaviorManager()
 }
 
 /**
+ * @brief BehaviorManager::~BehaviorManager closes the lua thread for scriptable behaviors
+ */
+BehaviorManager::~BehaviorManager()
+{
+    lua_close(ScriptableBehavior::s_L);
+}
+
+/**
  * @brief BehaviorManager::Update updates all behaviors of all entities
  */
 void BehaviorManager::Update()

@@ -9,6 +9,8 @@
 #include "LuaBindings.h"
 #include "IListener.h"
 
+#include "Logger.h"
+
 extern "C"
 {
 

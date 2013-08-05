@@ -22,6 +22,7 @@
 #include "RenderComponent.h"
 #include "Entity.h"
 #include "RenderSystem.h"
+#include "ScriptableBehavior.h"
 
 bool TestScene::Load()
 {
@@ -34,9 +35,11 @@ bool TestScene::Load()
     PositionComponent* pc = new PositionComponent();
     MovementComponent* mc = new MovementComponent();
     RenderComponent* rc = new RenderComponent();
+    ScriptableBehavior* sb = new ScriptableBehavior("move.lua", "Move");
     e->AttachComponent(pc);
     e->AttachComponent(mc);
     e->AttachComponent(rc);
+    e->AttachBehavior(sb);
     em.AddEntity(e);
 
     return true;
