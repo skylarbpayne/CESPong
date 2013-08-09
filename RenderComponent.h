@@ -22,20 +22,20 @@ private:
     CircleShape _Circle;
 public:
     RenderComponent() : IComponent("Render") { _Circle.setRadius(40); _Circle.setFillColor(sf::Color::Red); }
-    CircleShape const& GetShape()
+    CircleShape const& GetShape() const
     {
         return _Circle;
     }
     void setRadius(float radius){
         _Circle.setRadius(radius);
     }
-    void setColor(Color c){
+    void setColor(Color const& c){
         _Circle.setFillColor(c);
     }
     float getRadius(){
         return _Circle.getRadius();
     }
-    Color getColor(){
+    Color const& getColor(){
         return _Circle.getFillColor();
     }
 
