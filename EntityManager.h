@@ -9,11 +9,14 @@
 
 #include <list>
 #include "EntityAccessor.h"
+#include "IListener.h"
 
-class EntityManager : public EntityAccessor
+class EntityManager : public EntityAccessor, public IListener<AddEntityMessage>
 {
 private:
     std::list<unsigned int> _EntitySpaces;
+private:
+    void OnMessage(AddEntityMessage& msg) override;
 public:
     ~EntityManager();
 

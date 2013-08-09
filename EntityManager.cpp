@@ -105,3 +105,12 @@ void EntityManager::RemoveEntity(unsigned int ID)
         Emit<EntityMessage>(msg);
     }
 }
+
+/**
+ * @brief EntityManager::OnMessage calls AddEntity
+ * @param msg contains the entity to add
+ */
+void EntityManager::OnMessage(AddEntityMessage& msg)
+{
+    this->AddEntity(msg.entity);
+}

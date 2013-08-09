@@ -9,6 +9,7 @@
 #include "EntityFactory.h"
 #include <lua.hpp>
 #include "Entity.h"
+#include "IListener.h"
 
 /**
  * @brief EntityFactory::Register allows the use of lambda functions to register component types so that entities can be constructed
@@ -50,5 +51,8 @@ void EntityFactory::Create(const char* entity)
         lua_pop(L, 1);
     }
     lua_close(L);
-    //Add entity event here.
+
+    AddEntityMessage msg;
+    msg.entity = e;
+    Emit<AddEntityMessage>(msg);
 }

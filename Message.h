@@ -19,6 +19,16 @@ struct EntityMessage
     bool Destroyed;
 };
 
+class Entity;
+
+/**
+ * @brief The AddEntityMessage struct carries an entity to be added into the manager.
+ */
+struct AddEntityMessage
+{
+    Entity* entity;
+};
+
 /**
  * @brief The CollisionMessage struct carries essential data regarding entity collisions.
  * includes IDs of the entities involved and the normal about which they collided.
