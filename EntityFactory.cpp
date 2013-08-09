@@ -10,6 +10,7 @@
 #include <lua.hpp>
 #include "Entity.h"
 #include "IListener.h"
+#include "ScriptableBehavior.h"
 
 /**
  * @brief EntityFactory::Register allows the use of lambda functions to register component types so that entities can be constructed
@@ -40,7 +41,7 @@ void EntityFactory::Create(const char* entity)
     IComponent* c = nullptr;
     lua_State* L = luaL_newstate();
     luaL_dofile(L, entity);
-    lua_getglobal(L, "Entity");
+    lua_getglobal(L, "Components");
     lua_pushnil(L);
 
     while(lua_next(L, 1) != 0)
@@ -50,6 +51,18 @@ void EntityFactory::Create(const char* entity)
         e->AttachComponent(c);
         lua_pop(L, 1);
     }
+
+    lua_settop(L, 0);
+    lua_getglobal(L, "Behaviors");
+    lua_pushnil(L);
+    ScriptableBehavior* b = nullptr;
+
+    while(lua_next(L, 1) != 0)
+    {
+        b = new ScriptableBehavior(lua_tostring(L, -2), lua_tostring(L, -1));
+        e->AttachBehavior(b);
+    }
+
     lua_close(L);
 
     AddEntityMessage msg;
