@@ -9,6 +9,7 @@
 #pragma once
 
 class Entity;
+class lua_State;
 
 class IComponent
 {
@@ -19,6 +20,8 @@ private:
 public:
     IComponent(const char* type) : _Type(type) {};
     virtual ~IComponent() { }
+
+    virtual void Load(lua_State* L) = 0;
 
 	/**
         * @brief IComponent::GetParent Returns the parent entity to which this component is attached

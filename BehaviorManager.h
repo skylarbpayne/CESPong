@@ -3,7 +3,7 @@
     *
     * Author: Skylar Payne
     * Date: 7/28/2013
-    * File: IBehavior.h
+    * File: BehaviorManager.h
 **/
 
 #pragma once
