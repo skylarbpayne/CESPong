@@ -35,12 +35,16 @@ bool EntityFactory::Register(const char *componentType, std::function<IComponent
  * @brief EntityFactory::Create creates an entity from a Lua script
  * @param entity the file from which to load the entity
  */
-void EntityFactory::Create(const char* entity)
+void EntityFactory::Create(const char* entity, float x, float y)
 {
     Entity* e = new Entity();
     IComponent* c = nullptr;
     lua_State* L = luaL_newstate();
     luaL_dofile(L, entity);
+    lua_pushnumber(L, x);
+    lua_pushnumber(L, y);
+    lua_setglobal(L, "y");
+    lua_setglobal(L, "x");
     lua_getglobal(L, "Components");
     lua_pushnil(L);
 
