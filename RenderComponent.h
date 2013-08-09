@@ -21,7 +21,7 @@ friend class RenderSystem;
 private:
     CircleShape _Circle;
 public:
-    RenderComponent() : IComponent("Render") { _Circle.setRadius(40); _Circle.setFillColor(sf::Color::Red); }
+    RenderComponent() : IComponent("Render") { _Circle.setRadius(10); _Circle.setFillColor(sf::Color::Red); }
     CircleShape const& GetShape() const
     {
         return _Circle;
