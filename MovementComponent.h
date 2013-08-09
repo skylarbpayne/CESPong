@@ -34,7 +34,7 @@ public:
         _Velocity.y = y;
     }
 
-    void Load(lua_State *L)
+    void Load(lua_State *L) override
     {
 
     }

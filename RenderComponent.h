@@ -40,7 +40,7 @@ public:
         return _Circle.getFillColor();
     }
 
-    void Load(lua_State *L)
+    void Load(lua_State *L) override
     {
 
     }
