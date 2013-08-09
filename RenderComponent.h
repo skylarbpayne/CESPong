@@ -42,7 +42,16 @@ public:
 
     void Load(lua_State *L) override
     {
+        lua_pushstring(L, "radius");
+        lua_gettable(L, -2);
+        _Circle.setRadius(lua_tonumber(L, -1));
+        lua_pop(L, 1);
 
+        lua_getglobal(L, "x");
+        lua_getglobal(L, "y");
+
+        _Circle.setPosition(lua_tonumber(L, -2), lua_tonumber(L, -1));
+        lua_pop(L, 2);
     }
 
 };

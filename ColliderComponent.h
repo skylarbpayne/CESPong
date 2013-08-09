@@ -27,6 +27,20 @@ public:
 
     void Load(lua_State *L) override
     {
+        lua_pushstring(L, "w");
+        lua_gettable(L, -2);
+        _Dimensions.x = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+        lua_pushstring(L, "h");
+        lua_gettable(L, -2);
+        _Dimensions.y = lua_tonumber(L, -1);
+        lua_pop(L, 1);
 
+        lua_getglobal(L, "x");
+        lua_getglobal(L, "y");
+
+        _Offset.x = lua_tonumber(L, -2);
+        _Offset.y = lua_tonumber(L, -1);
+        lua_pop(L, 2);
     }
 };

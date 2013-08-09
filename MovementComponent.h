@@ -36,6 +36,13 @@ public:
 
     void Load(lua_State *L) override
     {
-
+        lua_pushstring(L, "xv");
+        lua_gettable(L, -2);
+        _Velocity.x = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+        lua_pushstring(L, "yv");
+        lua_gettable(L, -2);
+        _Velocity.y = lua_tonumber(L, -1);
+        lua_pop(L, 1);
     }
 };

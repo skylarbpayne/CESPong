@@ -37,6 +37,10 @@ public:
 
     void Load(lua_State *L) override
     {
+        lua_getglobal(L, "x");
+        lua_getglobal(L, "y");
 
+        _Position.x = lua_tonumber(L, -2);
+        _Position.y = lua_tonumber(L, -1);
     }
 };
