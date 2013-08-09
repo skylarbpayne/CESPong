@@ -10,6 +10,7 @@
 #include "IComponent.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <lua.hpp>
 
 using namespace std;
 using namespace sf;
@@ -37,6 +38,11 @@ public:
     }
     Color const& getColor(){
         return _Circle.getFillColor();
+    }
+
+    void Load(lua_State *L)
+    {
+
     }
 
 };

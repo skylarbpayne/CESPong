@@ -10,6 +10,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "IComponent.h"
+#include <lua.hpp>
 
 class ColliderComponent : public IComponent
 {
@@ -23,4 +24,9 @@ public:
 
     sf::Vector2f const& GetOffset() const { return _Offset; }
     sf::Vector2f const& GetDimensions() const { return _Dimensions; }
+
+    void Load(lua_State *L)
+    {
+
+    }
 };

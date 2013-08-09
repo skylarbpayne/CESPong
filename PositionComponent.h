@@ -9,6 +9,7 @@
 #include "IComponent.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <lua.hpp>
 
 using namespace std;
 using namespace sf;
@@ -32,5 +33,10 @@ public:
     {
         _Position.x = x;
         _Position.y = y;
+    }
+
+    void Load(lua_State *L)
+    {
+
     }
 };

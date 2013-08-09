@@ -10,6 +10,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "IComponent.h"
+#include <lua.hpp>
 
 class MovementComponent : public IComponent
 {
@@ -31,5 +32,10 @@ public:
     {
         _Velocity.x = x;
         _Velocity.y = y;
+    }
+
+    void Load(lua_State *L)
+    {
+
     }
 };
