@@ -28,7 +28,7 @@ public:
     {
         return _Position;
     }
-    void SetPosition(int x, int y)
+    void SetPosition(float x, float y)
     {
         _Position.x = x;
         _Position.y = y;
