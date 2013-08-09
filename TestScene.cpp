@@ -63,6 +63,11 @@ bool TestScene::Load()
     msg.newPosition.y = 400;
     Emit<MoveEntityMessage>(msg);
 
+    ef.Register("Position", []() { return new PositionComponent(); });
+    ef.Register("Movement", []() { return new MovementComponent(); });
+    ef.Register("Collider", []() { return new ColliderComponent(); });
+    ef.Register("Render", []() { return new RenderComponent(); });
+
     return true;
 }
 

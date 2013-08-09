@@ -15,6 +15,7 @@
 #include "SystemManager.h"
 #include "BehaviorManager.h"
 #include "EntityManager.h"
+#include "EntityFactory.h"
 
 class TestScene : public IScene, public WindowAccessor
 {
@@ -23,6 +24,7 @@ private:
     SystemManager sm;
     BehaviorManager bm;
     EntityManager em;
+    EntityFactory ef;
 public:
     bool Load() override;
     void Update() override;
