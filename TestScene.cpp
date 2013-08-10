@@ -35,43 +35,13 @@ bool TestScene::Load()
     CollisionSystem* cs = new CollisionSystem();
     sm.Add(cs);
 
-    /**
-    Entity* e = new Entity();
-    PositionComponent* pc = new PositionComponent();
-    MovementComponent* mc = new MovementComponent();
-    ColliderComponent* cc = new ColliderComponent(0, 0, 80, 80);
-    RenderComponent* rc = new RenderComponent();
-    ScriptableBehavior* sb = new ScriptableBehavior("Move", "move.lua");
-    e->AttachComponent(pc);
-    e->AttachComponent(mc);
-    e->AttachComponent(cc);
-    e->AttachComponent(rc);
-    e->AttachBehavior(sb);
-    em.AddEntity(e);
-
-    e = new Entity();
-    pc = new PositionComponent();
-    cc = new ColliderComponent(0, 0, 80, 80);
-    rc = new RenderComponent();
-    e->AttachComponent(pc);
-    e->AttachComponent(cc);
-    e->AttachComponent(rc);
-    em.AddEntity(e);
-
-    MoveEntityMessage msg;
-    msg.ID = e->GetID();
-    msg.newPosition.x = 400;
-    msg.newPosition.y = 400;
-    Emit<MoveEntityMessage>(msg);
-    **/
-
     ef.Register("Position", []() { return new PositionComponent(); });
     ef.Register("Movement", []() { return new MovementComponent(); });
     ef.Register("Collider", []() { return new ColliderComponent(); });
     ef.Register("Render", []() { return new RenderComponent(); });
 
     ef.Create("entity.lua", 50, 50);
-
+    ef.Create("entity2.lua", 400, 400);
     return true;
 }
 

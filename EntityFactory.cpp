@@ -56,36 +56,44 @@ void EntityFactory::Create(const char* entity, float x, float y)
 
     lua_settop(L, 0);
     lua_getglobal(L, "Components");
-    lua_pushnil(L);
 
-    while(lua_next(L, 1) != 0)
+    if(lua_isnil(L, -1) == 0)
     {
-        const char* temp = lua_tostring(L, -2);
-        if(_ConstructorMap.find(temp) == _ConstructorMap.end())
+        lua_pushnil(L);
+
+        while(lua_next(L, 1) != 0)
         {
-            g_Logger << temp << " component type not found. Continuing\n";
+            const char* temp = lua_tostring(L, -2);
+            if(_ConstructorMap.find(temp) == _ConstructorMap.end())
+            {
+                g_Logger << temp << " component type not found. Continuing\n";
+                lua_pop(L, 1);
+                continue;
+            }
+
+            c = _ConstructorMap[temp]();
+            c->Load(L);
+            lua_settop(L, 3);
+            e->AttachComponent(c);
+
             lua_pop(L, 1);
-            continue;
         }
-
-        c = _ConstructorMap[temp]();
-        c->Load(L);
-        lua_settop(L, 3);
-        e->AttachComponent(c);
-
-        lua_pop(L, 1);
     }
 
     lua_settop(L, 0);
     lua_getglobal(L, "Behaviors");
-    lua_pushnil(L);
-    ScriptableBehavior* b = nullptr;
 
-    while(lua_next(L, 1) != 0)
+    if(lua_isnil(L, -1) == 0)
     {
-        b = new ScriptableBehavior(lua_tostring(L, -2), lua_tostring(L, -1));
-        e->AttachBehavior(b);
-        lua_pop(L, 1);
+        lua_pushnil(L);
+        ScriptableBehavior* b = nullptr;
+
+        while(lua_next(L, 1) != 0)
+        {
+            b = new ScriptableBehavior(lua_tostring(L, -2), lua_tostring(L, -1));
+            e->AttachBehavior(b);
+            lua_pop(L, 1);
+        }
     }
 
     lua_close(L);
