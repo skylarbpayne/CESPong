@@ -35,6 +35,7 @@ bool TestScene::Load()
     CollisionSystem* cs = new CollisionSystem();
     sm.Add(cs);
 
+    /**
     Entity* e = new Entity();
     PositionComponent* pc = new PositionComponent();
     MovementComponent* mc = new MovementComponent();
@@ -62,11 +63,14 @@ bool TestScene::Load()
     msg.newPosition.x = 400;
     msg.newPosition.y = 400;
     Emit<MoveEntityMessage>(msg);
+    **/
 
     ef.Register("Position", []() { return new PositionComponent(); });
     ef.Register("Movement", []() { return new MovementComponent(); });
     ef.Register("Collider", []() { return new ColliderComponent(); });
     ef.Register("Render", []() { return new RenderComponent(); });
+
+    ef.Create("entity.lua", 50, 50);
 
     return true;
 }

@@ -19,7 +19,7 @@ lua_State* ScriptableBehavior::s_L;
  */
 void ScriptableBehavior::LoadFile()
 {
-    if(luaL_dofile(s_L, _Script))
+    if(luaL_dofile(s_L, _Script.c_str()))
     {
         g_Logger << lua_tostring(s_L, -1) << "\n";
         lua_pop(s_L, 1);

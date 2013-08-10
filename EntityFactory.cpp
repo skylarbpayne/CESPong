@@ -11,6 +11,7 @@
 #include "Entity.h"
 #include "IListener.h"
 #include "ScriptableBehavior.h"
+#include "Logger.h"
 
 /**
  * @brief EntityFactory::Register allows the use of lambda functions to register component types so that entities can be constructed
@@ -40,19 +41,38 @@ void EntityFactory::Create(const char* entity, float x, float y)
     Entity* e = new Entity();
     IComponent* c = nullptr;
     lua_State* L = luaL_newstate();
-    luaL_dofile(L, entity);
+
+    if(luaL_dofile(L, entity))
+    {
+        g_Logger << lua_error(L) << lua_tostring(L, -1) << "\n";
+        g_Logger.flush();
+        lua_pop(L, 1);
+    }
+
     lua_pushnumber(L, x);
     lua_pushnumber(L, y);
     lua_setglobal(L, "y");
     lua_setglobal(L, "x");
+
+    lua_settop(L, 0);
     lua_getglobal(L, "Components");
     lua_pushnil(L);
 
     while(lua_next(L, 1) != 0)
     {
-        c = _ConstructorMap[lua_tostring(L, -2)]();
+        const char* temp = lua_tostring(L, -2);
+        if(_ConstructorMap.find(temp) == _ConstructorMap.end())
+        {
+            g_Logger << temp << " component type not found. Continuing\n";
+            lua_pop(L, 1);
+            continue;
+        }
+
+        c = _ConstructorMap[temp]();
         c->Load(L);
+        lua_settop(L, 3);
         e->AttachComponent(c);
+
         lua_pop(L, 1);
     }
 
@@ -65,9 +85,11 @@ void EntityFactory::Create(const char* entity, float x, float y)
     {
         b = new ScriptableBehavior(lua_tostring(L, -2), lua_tostring(L, -1));
         e->AttachBehavior(b);
+        lua_pop(L, 1);
     }
 
     lua_close(L);
+
 
     AddEntityMessage msg;
     msg.entity = e;
