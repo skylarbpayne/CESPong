@@ -36,7 +36,7 @@ static int Exit(lua_State* L)
 /**
  * @brief CreateEntity lets lua emit a CreateEntityMessage
  * @param L the calling lua thread
- * @return 0 return values
+ * @return no return value if successful, error message if failed
  */
 static int CreateEntity(lua_State* L)
 {
@@ -57,7 +57,7 @@ static int CreateEntity(lua_State* L)
 /**
  * @brief DestroyEntity lets lua emit a DestroyEntityMessage
  * @param L the calling lua thread
- * @return 0 return values
+ * @return no return value if successful, error message if failed
  */
 static int DestroyEntity(lua_State* L)
 {
@@ -76,7 +76,7 @@ static int DestroyEntity(lua_State* L)
 /**
  * @brief GetKeyState gets the key state of a certain key
  * @param L the calling lua thread
- * @return 1 return value
+ * @return true if key was pressed, false if not pressed, or error message if failed
  */
 static int isKeyPressed(lua_State* L)
 {
@@ -92,9 +92,27 @@ static int isKeyPressed(lua_State* L)
 }
 
 /**
+ * @brief GetCursorPosition gets the position of the on screen cursor
+ * @param L the calling lua thread
+ * @return 2 return values: x position and y position of cursor or error message if failed
+ */
+static int GetCursorPosition(lua_State* L)
+{
+    if(lua_gettop(L) != 1)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
+    lua_pushnumber(L, sf::Mouse::getPosition().x);
+    lua_pushnumber(L, sf::Mouse::getPosition().y);
+    return 2;
+}
+
+/**
  * @brief MoveEntity Lets lua emit a MoveEntity message
  * @param L the calling lua thread
- * @return 0 return values
+ * @return no return value if successful, error message if failed
  */
 static int MoveEntity(lua_State* L)
 {
@@ -115,7 +133,7 @@ static int MoveEntity(lua_State* L)
 /**
  * @brief PushEntity Lets lua emit a PushEntity message
  * @param L the calling lua thread
- * @return 0 return values
+ * @return no return value if successful, error message if failed
  */
 static int PushEntity(lua_State* L)
 {
