@@ -8,8 +8,14 @@
 
 #include "LuaBindings.h"
 #include "IListener.h"
+#include "WindowAccessor.h"
 
 #include "Logger.h"
+
+struct LuaAccessor : public WindowAccessor
+{
+    sf::RenderWindow& GetRenderWindow() const { return *this->GetWindow(); }
+};
 
 extern "C"
 {
@@ -98,14 +104,15 @@ static int isKeyPressed(lua_State* L)
  */
 static int GetCursorPosition(lua_State* L)
 {
-    if(lua_gettop(L) != 1)
+    if(lua_gettop(L) != 0)
     {
         lua_pushstring(L, "Error: incorrect number of parameters");
         return 1;
     }
 
-    lua_pushnumber(L, sf::Mouse::getPosition().x);
-    lua_pushnumber(L, sf::Mouse::getPosition().y);
+    LuaAccessor la;
+    lua_pushnumber(L, sf::Mouse::getPosition(la.GetRenderWindow()).x);
+    lua_pushnumber(L, sf::Mouse::getPosition(la.GetRenderWindow()).y);
     return 2;
 }
 
