@@ -17,7 +17,10 @@
  */
 void CollisionSystem::OnMessage(EntityMovedMessage& msg)
 {
-    _MovedEntities.push_back(msg.ID);
+    if(this->GetEntity(msg.ID)->HasComponent("Collider"))
+    {
+        _MovedEntities.push_back(msg.ID);
+    }
 }
 
 /**
@@ -95,7 +98,7 @@ void CollisionSystem::Update(unsigned int dt)
 
             e1 = this->GetEntity(*mit);
             e2 = this->GetEntity(*eit);
-            p1 = this->GetEntity(*mit)->GetComponent<PositionComponent>("Position");
+            p1 = e1->GetComponent<PositionComponent>("Position");
 
             if(CheckCollision(e1, e2, norm))
             {
@@ -126,5 +129,17 @@ bool CollisionSystem::ValidateEntity(unsigned int ID)
 {
     Entity* e = this->GetEntity(ID);
 
-    return e->HasComponent("Collider") && e->HasComponent("Position");
+    bool rtn = e->HasComponent("Collider") && e->HasComponent("Position");
+
+    if(rtn)
+    {
+        EntityMovedMessage msg;
+        msg.ID = ID;
+        sf::Vector2f const& pos = e->GetComponent<PositionComponent>("Position")->GetPosition();
+        msg.oldPosition = pos;
+        msg.newPosition = pos;
+        Emit<EntityMovedMessage>(msg);
+    }
+
+    return rtn;
 }
