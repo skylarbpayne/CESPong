@@ -17,10 +17,16 @@ extern "C"
 /**
  * @brief exit Lets lua emit an exit message
  * @param L the calling lua thread
- * @return 0 return values
+ * @return no return value if successful, error message if failed
  */
 static int Exit(lua_State* L)
 {
+    if(lua_gettop(L) != 1)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
     ExitMessage msg;
     msg.ExitStatus = lua_tonumber(L, 1);
     Emit<ExitMessage>(msg);
@@ -34,6 +40,12 @@ static int Exit(lua_State* L)
  */
 static int CreateEntity(lua_State* L)
 {
+    if(lua_gettop(L) != 3)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
     CreateEntityMessage msg;
     msg.script = lua_tostring(L, 1);
     msg.position.x = lua_tonumber(L, 2);
@@ -49,6 +61,12 @@ static int CreateEntity(lua_State* L)
  */
 static int DestroyEntity(lua_State* L)
 {
+    if(lua_gettop(L) != 1)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
     DestroyEntityMessage msg;
     msg.ID = lua_tonumber(L, 1);
     Emit<DestroyEntityMessage>(msg);
@@ -62,6 +80,12 @@ static int DestroyEntity(lua_State* L)
  */
 static int isKeyPressed(lua_State* L)
 {
+    if(lua_gettop(L) != 1)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
     sf::Keyboard::Key key = static_cast<sf::Keyboard::Key>(lua_tointeger(L, 1));
     lua_pushboolean(L, sf::Keyboard::isKeyPressed(key));
     return 1;
@@ -74,6 +98,12 @@ static int isKeyPressed(lua_State* L)
  */
 static int MoveEntity(lua_State* L)
 {
+    if(lua_gettop(L) != 3)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
     MoveEntityMessage msg;
     msg.ID = lua_tonumber(L, 1);
     msg.newPosition.x = lua_tonumber(L, 2);
@@ -89,6 +119,12 @@ static int MoveEntity(lua_State* L)
  */
 static int PushEntity(lua_State* L)
 {
+    if(lua_gettop(L) != 3)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
     PushEntityMessage msg;
     msg.ID = lua_tonumber(L, 1);
     msg.newVelocity.x = lua_tonumber(L, 2);
