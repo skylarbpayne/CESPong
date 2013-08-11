@@ -17,7 +17,7 @@
  */
 void CollisionSystem::OnMessage(EntityMovedMessage& msg)
 {
-    _MovedEntities.push_front(msg.ID);
+    _MovedEntities.push_back(msg.ID);
 }
 
 /**
@@ -84,7 +84,7 @@ void CollisionSystem::Update(unsigned int dt)
     std::list<unsigned int>::iterator mit;
     std::list<unsigned int>::iterator eit;
 
-    for(mit = _MovedEntities.begin(); mit != _MovedEntities.end();)
+    for(mit = _MovedEntities.begin(); mit != _MovedEntities.end(); mit++)
     {
         for(eit = _EntitiesToUpdate.begin(); eit != _EntitiesToUpdate.end(); eit++)
         {
@@ -112,11 +112,10 @@ void CollisionSystem::Update(unsigned int dt)
                 cmsg.norm.y = norm.y;
                 Emit<CollisionMessage>(cmsg);
             }
-
         }
-        std::list<unsigned int>::iterator temp = mit++;
-        _MovedEntities.erase(temp);
     }
+
+    _MovedEntities.clear();
 }
 
 /**

@@ -25,10 +25,15 @@ void MovementSystem::Update(unsigned int dt)
         Entity* e = this->GetEntity(*it);
 
         MovementComponent* mc = e->GetComponent<MovementComponent>("Movement");
-        PositionComponent* pc = e->GetComponent<PositionComponent>("Position");
-
-        sf::Vector2f const& pos = pc->GetPosition();
         sf::Vector2f const& vel = mc->GetVelocity();
+
+        if(vel.x == 0 && vel.y == 0)
+        {
+            continue;
+        }
+
+        PositionComponent* pc = e->GetComponent<PositionComponent>("Position");
+        sf::Vector2f const& pos = pc->GetPosition();
 
         pc->SetPosition(pos.x + vel.x, pos.y + vel.y);
 
