@@ -42,6 +42,8 @@ void ScriptableBehavior::Update()
         g_Logger << lua_tostring(s_L, -1) << "\n";
         lua_pop(s_L, 1);
     }
+
+    lua_settop(s_L, 0);
 }
 
 /**
@@ -57,5 +59,12 @@ void ScriptableBehavior::OnCollide(unsigned int ID, sf::Vector2f& norm)
     lua_pushnumber(s_L, ID);
     lua_pushnumber(s_L, norm.x);
     lua_pushnumber(s_L, norm.y);
-    lua_pcall(s_L, 3, 0, 0);
+
+    if(lua_pcall(s_L, 3, 0, 0))
+    {
+        g_Logger << lua_tostring(s_L, -1) << "\n";
+        lua_pop(s_L, 1);
+    }
+
+    lua_settop(s_L, 0);
 }

@@ -9,12 +9,16 @@
 #include "LuaBindings.h"
 #include "IListener.h"
 #include "WindowAccessor.h"
+#include "EntityAccessor.h"
+#include "PositionComponent.h"
+#include "Entity.h"
 
 #include "Logger.h"
 
-struct LuaAccessor : public WindowAccessor
+struct LuaAccessor : public WindowAccessor, public EntityAccessor
 {
-    sf::RenderWindow& GetRenderWindow() const { return *this->GetWindow(); }
+    sf::RenderWindow& GetWindow() const { return *WindowAccessor::GetWindow(); }
+    Entity* GetEntity(unsigned int ID) const { return EntityAccessor::GetEntity(ID); }
 };
 
 extern "C"
@@ -111,9 +115,41 @@ static int GetCursorPosition(lua_State* L)
     }
 
     LuaAccessor la;
-    lua_pushnumber(L, sf::Mouse::getPosition(la.GetRenderWindow()).x);
-    lua_pushnumber(L, sf::Mouse::getPosition(la.GetRenderWindow()).y);
+    lua_pushnumber(L, sf::Mouse::getPosition(la.GetWindow()).x);
+    lua_pushnumber(L, sf::Mouse::getPosition(la.GetWindow()).y);
     return 2;
+}
+/**
+ * @brief GetEntityPosition gets the position of a specified entity
+ * @param L the calling lua thread
+ * @return the entity position if available, an error string otherwise.
+ */
+static int GetEntityPosition(lua_State* L)
+{
+    if(lua_gettop(L) != 1)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
+    LuaAccessor la;
+    unsigned int id = (unsigned int)lua_tonumber(L, 1);
+    Entity* e = la.GetEntity(id);
+
+    if(e)
+    {
+        PositionComponent* p = e->GetComponent<PositionComponent>("Position");
+
+        if(p)
+        {
+            lua_pushnumber(L, p->GetPosition().x);
+            lua_pushnumber(L, p->GetPosition().y);
+            return 2;
+        }
+    }
+
+    lua_pushstring(L, "position component does not exist");
+    return 1;
 }
 
 /**
@@ -181,6 +217,9 @@ void SetBindings(lua_State *L)
 
     lua_pushcfunction(L, isKeyPressed);
     lua_setglobal(L, "is_key_pressed");
+
+    lua_pushcfunction(L, GetEntityPosition);
+    lua_setglobal(L, "get_entity_position");
 
     lua_pushcfunction(L, MoveEntity);
     lua_setglobal(L, "move_entity");

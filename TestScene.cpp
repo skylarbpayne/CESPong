@@ -40,8 +40,8 @@ bool TestScene::Load()
     ef.Register("Collider", []() { return new ColliderComponent(); });
     ef.Register("Render", []() { return new RenderComponent(); });
 
-    ef.Create("entity2.lua", 50, 50);
-    ef.Create("entity3.lua", 400, 400);
+    ef.Create("entity.lua", 50, 50);
+    ef.Create("entity2.lua", 400, 400);
     return true;
 }
 
