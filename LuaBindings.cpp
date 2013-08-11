@@ -169,6 +169,9 @@ void SetBindings(lua_State *L)
     lua_pushcfunction(L, DestroyEntity);
     lua_setglobal(L, "destroy_entity");
 
+    lua_pushcfunction(L, GetCursorPosition);
+    lua_setglobal(L, "get_cursor_position");
+
     lua_pushcfunction(L, isKeyPressed);
     lua_setglobal(L, "is_key_pressed");
 
