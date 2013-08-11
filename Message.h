@@ -30,6 +30,23 @@ struct AddEntityMessage
 };
 
 /**
+ * @brief The CreateEntityMessage struct will allow components and scripts to create entities
+ */
+struct CreateEntityMessage
+{
+    const char* script;
+    sf::Vector2f position;
+};
+
+/**
+ * @brief The DestroyEntityMessage struct will allow components and scripts to destroy entities
+ */
+struct DestroyEntityMessage
+{
+    unsigned int ID;
+};
+
+/**
  * @brief The CollisionMessage struct carries essential data regarding entity collisions.
  * includes IDs of the entities involved and the normal about which they collided.
  */

@@ -107,10 +107,33 @@ void EntityManager::RemoveEntity(unsigned int ID)
 }
 
 /**
+ * @brief EntityManager::Update removes all entities at a time where nothing should be iterating through them.
+ */
+void EntityManager::Update()
+{
+    std::list<unsigned int>::iterator it;
+
+    for(it = _EntitiesToRemove.begin(); it != _EntitiesToRemove.end(); it++)
+    {
+        RemoveEntity(*it);
+    }
+    _EntitiesToRemove.clear();
+}
+
+/**
  * @brief EntityManager::OnMessage calls AddEntity
  * @param msg contains the entity to add
  */
 void EntityManager::OnMessage(AddEntityMessage& msg)
 {
     this->AddEntity(msg.entity);
+}
+
+/**
+ * @brief EntityManager::OnMessage puts the entity ID into a list to be destroyed next frame
+ * @param msg holds the ID of the entity to destroy
+ */
+void EntityManager::OnMessage(DestroyEntityMessage& msg)
+{
+    _EntitiesToRemove.push_back(msg.ID);
 }

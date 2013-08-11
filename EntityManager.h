@@ -11,15 +11,18 @@
 #include "EntityAccessor.h"
 #include "IListener.h"
 
-class EntityManager : public EntityAccessor, public IListener<AddEntityMessage>
+class EntityManager : public EntityAccessor, public IListener<AddEntityMessage>, public IListener<DestroyEntityMessage>
 {
 private:
     std::list<unsigned int> _EntitySpaces;
+    std::list<unsigned int> _EntitiesToRemove;
 private:
     void OnMessage(AddEntityMessage& msg) override;
+    void OnMessage(DestroyEntityMessage& msg) override;
 public:
     ~EntityManager();
 
     bool AddEntity(Entity* e);
     void RemoveEntity(unsigned int ID);
+    void Update();
 };

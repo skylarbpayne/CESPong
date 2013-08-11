@@ -16,8 +16,8 @@ extern "C"
 
 /**
  * @brief exit Lets lua emit an exit message
- * @param L the lua thread to perform this function on
- * @return 0
+ * @param L the calling lua thread
+ * @return 0 return values
  */
 static int Exit(lua_State* L)
 {
@@ -28,9 +28,37 @@ static int Exit(lua_State* L)
 }
 
 /**
+ * @brief CreateEntity lets lua emit a CreateEntityMessage
+ * @param L the calling lua thread
+ * @return 0 return values
+ */
+static int CreateEntity(lua_State* L)
+{
+    CreateEntityMessage msg;
+    msg.script = lua_tostring(L, 1);
+    msg.position.x = lua_tonumber(L, 2);
+    msg.position.y = lua_tonumber(L, 3);
+    Emit<CreateEntityMessage>(msg);
+    return 0;
+}
+
+/**
+ * @brief DestroyEntity lets lua emit a DestroyEntityMessage
+ * @param L the calling lua thread
+ * @return 0 return values
+ */
+static int DestroyEntity(lua_State* L)
+{
+    DestroyEntityMessage msg;
+    msg.ID = lua_tonumber(L, 1);
+    Emit<DestroyEntityMessage>(msg);
+    return 0;
+}
+
+/**
  * @brief GetKeyState gets the key state of a certain key
- * @param L the thread to perform this function on
- * @return 1
+ * @param L the calling lua thread
+ * @return 1 return value
  */
 static int isKeyPressed(lua_State* L)
 {
@@ -41,8 +69,8 @@ static int isKeyPressed(lua_State* L)
 
 /**
  * @brief MoveEntity Lets lua emit a MoveEntity message
- * @param L the thread to run the function on
- * @return 0
+ * @param L the calling lua thread
+ * @return 0 return values
  */
 static int MoveEntity(lua_State* L)
 {
@@ -56,8 +84,8 @@ static int MoveEntity(lua_State* L)
 
 /**
  * @brief PushEntity Lets lua emit a PushEntity message
- * @param L the thread to run the function on
- * @return 0
+ * @param L the calling lua thread
+ * @return 0 return values
  */
 static int PushEntity(lua_State* L)
 {
@@ -80,6 +108,12 @@ void SetBindings(lua_State *L)
 
     lua_pushcfunction(L, Exit);
     lua_setglobal(L, "exit");
+
+    lua_pushcfunction(L, CreateEntity);
+    lua_setglobal(L, "create_entity");
+
+    lua_pushcfunction(L, DestroyEntity);
+    lua_setglobal(L, "destroy_entity");
 
     lua_pushcfunction(L, isKeyPressed);
     lua_setglobal(L, "is_key_pressed");

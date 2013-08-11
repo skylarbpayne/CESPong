@@ -103,3 +103,12 @@ void EntityFactory::Create(const char* entity, float x, float y)
     msg.entity = e;
     Emit<AddEntityMessage>(msg);
 }
+
+/**
+ * @brief EntityFactory::OnMessage calls the create function with data held in msg
+ * @param msg position and file from which to load entity.
+ */
+void EntityFactory::OnMessage(CreateEntityMessage& msg)
+{
+    Create(msg.script, msg.position.x, msg.position.y);
+}

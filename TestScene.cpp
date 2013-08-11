@@ -74,6 +74,7 @@ void TestScene::Update()
     }
 
     this->GetWindow()->clear();
+    em.Update();
     sm.Update();
     bm.Update();
     this->GetWindow()->display();
