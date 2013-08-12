@@ -19,7 +19,7 @@ void CollisionSystem::OnMessage(EntityMovedMessage& msg)
 {
     if(this->GetEntity(msg.ID)->HasComponent("Collider"))
     {
-        _MovedEntities.push_back(msg.ID);
+        _MovedEntities.insert(msg.ID);
     }
 }
 
@@ -84,10 +84,11 @@ void CollisionSystem::Update(unsigned int dt)
     Entity* e2 = nullptr;
     PositionComponent* p1 = nullptr;
     sf::Vector2f norm;
-    std::list<unsigned int>::iterator mit;
-    std::list<unsigned int>::iterator eit;
+    std::set<unsigned int> movedEntities = _MovedEntities;
+    std::set<unsigned int>::iterator mit;
+    std::set<unsigned int>::iterator eit;
 
-    for(mit = _MovedEntities.begin(); mit != _MovedEntities.end(); mit++)
+    for(mit = movedEntities.begin(); mit != movedEntities.end(); mit++)
     {
         for(eit = _EntitiesToUpdate.begin(); eit != _EntitiesToUpdate.end(); eit++)
         {
@@ -114,11 +115,12 @@ void CollisionSystem::Update(unsigned int dt)
                 cmsg.norm.x = norm.x;
                 cmsg.norm.y = norm.y;
                 Emit<CollisionMessage>(cmsg);
+
+                continue;
             }
         }
+        _MovedEntities.erase(*mit);
     }
-
-    _MovedEntities.clear();
 }
 
 /**

@@ -18,7 +18,7 @@
  */
 void MovementSystem::Update(unsigned int dt)
 {
-    std::list<unsigned int>::iterator it;
+    std::set<unsigned int>::iterator it;
 
     for(it = _EntitiesToUpdate.begin(); it != _EntitiesToUpdate.end(); ++it)
     {

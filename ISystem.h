@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <list>
+#include <set>
 #include "EntityAccessor.h"
 #include "IListener.h"
 
@@ -17,7 +17,7 @@ class ISystem : public EntityAccessor, public IListener<EntityMessage>
 protected:
 	bool _Active;
     const char* _Type;
-	std::list<unsigned int> _EntitiesToUpdate;
+    std::set<unsigned int> _EntitiesToUpdate;
 private:
     void OnMessage(EntityMessage& msg) override final;
 public:
@@ -39,11 +39,11 @@ inline void ISystem::OnMessage(EntityMessage &msg)
 {
     if(msg.Destroyed)
     {
-        _EntitiesToUpdate.remove(msg.ID);
+        _EntitiesToUpdate.erase(msg.ID);
     }
 
     else if(ValidateEntity(msg.ID))
     {
-        _EntitiesToUpdate.push_back(msg.ID);
+        _EntitiesToUpdate.insert(msg.ID);
     }
 }
