@@ -15,7 +15,7 @@ class lua_State;
 
 class ScriptableBehavior : public IBehavior
 {
-friend class BehaviorManager;
+friend class BehaviorSystem;
 private:
     static lua_State* s_L;
     std::string _Script;

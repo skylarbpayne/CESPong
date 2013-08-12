@@ -6,7 +6,7 @@
     * File: IBehavior.cpp
 **/
 
-#include "BehaviorManager.h"
+#include "BehaviorSystem.h"
 #include "Entity.h"
 
 #include <lua.hpp>
@@ -14,26 +14,27 @@
 #include "ScriptableBehavior.h"
 
 /**
- * @brief BehaviorManager::BehaviorManager sets up a lua thread for scriptable behaviors to use.
+ * @brief BehaviorSystem::BehaviorSystem sets up a lua thread for scriptable behaviors to use.
  */
-BehaviorManager::BehaviorManager()
+BehaviorSystem::BehaviorSystem() : ISystem("Behavior")
 {
     ScriptableBehavior::s_L = luaL_newstate();
     SetBindings(ScriptableBehavior::s_L);
 }
 
 /**
- * @brief BehaviorManager::~BehaviorManager closes the lua thread for scriptable behaviors
+ * @brief BehaviorSystem::~BehaviorSystem closes the lua thread for scriptable behaviors
  */
-BehaviorManager::~BehaviorManager()
+BehaviorSystem::~BehaviorSystem()
 {
     lua_close(ScriptableBehavior::s_L);
 }
 
 /**
- * @brief BehaviorManager::Update updates all behaviors of all entities
+ * @brief BehaviorSystem::Update updates all behaviors of all entities
+ * @param dt time since last frame
  */
-void BehaviorManager::Update()
+void BehaviorSystem::Update(unsigned int dt)
 {
     std::list<IBehavior*>::iterator bit;
 
@@ -52,10 +53,10 @@ void BehaviorManager::Update()
 }
 
 /**
- * @brief BehaviorManager::OnMessage called when a CollisionMessage is emitted--Calls OnCollide method of appropriate behaviors
+ * @brief BehaviorSystem::OnMessage called when a CollisionMessage is emitted--Calls OnCollide method of appropriate behaviors
  * @param msg the collision data
  */
-void BehaviorManager::OnMessage(CollisionMessage& msg)
+void BehaviorSystem::OnMessage(CollisionMessage& msg)
 {
     Entity* e1 = this->GetEntity(msg.ID1);
     Entity* e2 = this->GetEntity(msg.ID2);
@@ -71,4 +72,15 @@ void BehaviorManager::OnMessage(CollisionMessage& msg)
     {
         (*it)->OnCollide(msg.ID1, msg.norm);
     }
+}
+
+/**
+ * @brief BehaviorSystem::ValidateEntity checks to see if any behaviors are attached to the entity
+ * @param ID the entity to check
+ * @return true if the entity has any behaviors, false otherwise
+ */
+bool BehaviorSystem::ValidateEntity(unsigned int ID)
+{
+    Entity* e = this->GetEntity(ID);
+    return e->_Behaviors.size() > 0;
 }

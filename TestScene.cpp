@@ -25,6 +25,7 @@
 #include "ScriptableBehavior.h"
 #include "CollisionSystem.h"
 #include "ColliderComponent.h"
+#include "BehaviorSystem.h"
 
 bool TestScene::Load()
 {
@@ -34,6 +35,8 @@ bool TestScene::Load()
     sm.Add(ms);
     CollisionSystem* cs = new CollisionSystem();
     sm.Add(cs);
+    BehaviorSystem* bs = new BehaviorSystem();
+    sm.Add(bs);
 
     ef.Register("Position", []() { return new PositionComponent(); });
     ef.Register("Movement", []() { return new MovementComponent(); });
@@ -76,7 +79,6 @@ void TestScene::Update()
     this->GetWindow()->clear();
     em.Update();
     sm.Update();
-    bm.Update();
     this->GetWindow()->display();
 }
 

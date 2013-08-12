@@ -9,16 +9,18 @@
 #pragma once
 
 #include "IBehavior.h"
-#include "EntityAccessor.h"
+#include "ISystem.h"
 #include "IListener.h"
+#include "LuaBindings.h"
 
-class BehaviorManager : public EntityAccessor, public IListener<CollisionMessage>
+class BehaviorSystem : public ISystem, public IListener<CollisionMessage>
 {
 private:
     void OnMessage(CollisionMessage& msg) override;
 public:
-    BehaviorManager();
-    ~BehaviorManager();
+    BehaviorSystem();
+    ~BehaviorSystem();
 
-    void Update();
+    void Update(unsigned int dt) override;
+    bool ValidateEntity(unsigned int ID) override;
 };

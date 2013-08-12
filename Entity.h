@@ -15,7 +15,7 @@
 class Entity
 {
 friend class EntityManager;
-friend class BehaviorManager;
+friend class BehaviorSystem;
 private:
     unsigned int _ID;
 	std::list<IComponent*> _Components;
