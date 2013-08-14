@@ -11,10 +11,14 @@
 #include "WindowAccessor.h"
 #include "EntityAccessor.h"
 #include "PositionComponent.h"
+#include "MovementComponent.h"
 #include "Entity.h"
 
 #include "Logger.h"
 
+/**
+ * @brief The LuaAccessor struct allows Lua to gain access to wide access data.
+ */
 struct LuaAccessor : public WindowAccessor, public EntityAccessor
 {
     sf::RenderWindow& GetWindow() const { return *WindowAccessor::GetWindow(); }
@@ -146,9 +150,55 @@ static int GetEntityPosition(lua_State* L)
             lua_pushnumber(L, p->GetPosition().y);
             return 2;
         }
+
+        else
+        {
+            lua_pushstring(L, "No position component");
+            return 1;
+        }
     }
 
-    lua_pushstring(L, "position component does not exist");
+    lua_pushstring(L, "Entity does not exist");
+    return 1;
+}
+
+/**
+ * @brief GetEntityVelocity gets a specified entity's velocity
+ * @param L the calling lua thread
+ * @return the velocity; 0, 0 if the entity does not have a movement component.
+ */
+static int GetEntityVelocity(lua_State *L)
+{
+    if(lua_gettop(L) != 1)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
+    LuaAccessor la;
+    unsigned int id = (unsigned int)lua_tonumber(L, 1);
+    Entity* e = la.GetEntity(id);
+
+    if(e)
+    {
+        MovementComponent* m = e->GetComponent<MovementComponent>("Movement");
+
+        if(m)
+        {
+            lua_pushnumber(L, m->GetVelocity().x);
+            lua_pushnumber(L, m->GetVelocity().y);
+        }
+
+        else
+        {
+            lua_pushnumber(L, 0);
+            lua_pushnumber(L, 0);
+        }
+
+        return 2;
+    }
+
+    lua_pushstring(L, "Entity does not exist");
     return 1;
 }
 
@@ -220,6 +270,9 @@ void SetBindings(lua_State *L)
 
     lua_pushcfunction(L, GetEntityPosition);
     lua_setglobal(L, "get_entity_position");
+
+    lua_pushcfunction(L, GetEntityVelocity);
+    lua_setglobal(L, "get_entity_velocity");
 
     lua_pushcfunction(L, MoveEntity);
     lua_setglobal(L, "move_entity");

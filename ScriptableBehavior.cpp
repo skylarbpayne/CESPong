@@ -26,7 +26,7 @@ void ScriptableBehavior::LoadFile()
     }
 
     lua_pushnumber(s_L, this->GetParent()->GetID());
-    lua_setglobal(s_L, "ID");
+    lua_setglobal(s_L, "my_ID");
 }
 
 /**
@@ -56,6 +56,12 @@ void ScriptableBehavior::OnCollide(unsigned int ID, sf::Vector2f& norm)
     this->LoadFile();
 
     lua_getglobal(s_L, "OnCollide");
+
+    if(lua_isfunction(s_L, -1) == 0)
+    {
+        return;
+    }
+
     lua_pushnumber(s_L, ID);
     lua_pushnumber(s_L, norm.x);
     lua_pushnumber(s_L, norm.y);
