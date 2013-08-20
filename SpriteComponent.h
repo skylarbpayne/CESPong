@@ -24,10 +24,10 @@ public:
     {
         return _XSprite;
     }
-    void setSpriteColor(string s){
-        _XSprite.setColor();
+    void setSpriteColor(Color const& s){
+        _XSprite.setColor(s);
     }
-    void setSpriteTexture(Texture t){
+    void setSpriteTexture(Texture const& t){
         _XSprite.setTexture(t);
     }
     Color const getSpriteColor(){
