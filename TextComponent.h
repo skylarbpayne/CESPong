@@ -7,12 +7,13 @@
 
 #pragma once
 #include "IRenderComponent.h"
+#include "ResourceAccessor.h"
 
 using namespace std;
 using namespace sf;
 
 
-class RenderComponent : public IRenderComponent
+class RenderComponent : public IRenderComponent, public ResourceAccessor
 {
 friend class RenderSystem;
 private:
@@ -34,8 +35,8 @@ public:
     void setText(string const& s){
         _XText.setString(s);
     }
-    void setFont(Font const& f){
-       _XText.setFont(f);
+    void setFont(const char* file){
+        _XText.setFont(*this->GetFont(file));
     }
     void setSize(unsigned int i){
         _XText.setCharacterSize(i);
