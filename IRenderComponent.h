@@ -16,4 +16,5 @@ public:
     IRenderComponent() : IComponent("Render") {
     }
     virtual sf::Drawable const& GetDrawable() const = 0;
+    virtual ~IRenderComponent( ) {    }
 };
