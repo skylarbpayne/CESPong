@@ -33,5 +33,5 @@ void RenderSystem::OnMessage(EntityMovedMessage& msg)
 {
     Entity* e = this->GetEntity(msg.ID);
     IRenderComponent* rc = e->GetComponent<IRenderComponent>("Render");
-    rc->GetDrawable().
+    rc->SetPosition(msg.newPosition);
 }
