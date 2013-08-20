@@ -22,7 +22,13 @@ public:
         _Circle.setRadius(10);
         _Circle.setFillColor(Color::Red);
     }
-    Drawable const& GetDrawable() const
+
+    void SetPosition(const Vector2f &pos) override
+    {
+        _Circle.setPosition(pos);
+    }
+
+    Drawable const& GetDrawable() const override
     {
         return _Circle;
     }

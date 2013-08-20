@@ -22,6 +22,12 @@ public:
         _Rectangle.setSize(Vector2f(100, 50));
         _Rectangle.setFillColor(Red);
     }
+
+    void SetPosition(const Vector2f &pos) override
+    {
+        _Rectangle.setPosition(pos);
+    }
+
     RectangleShape const& GetDrawable() const
     {
         return _Rectangle;

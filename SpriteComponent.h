@@ -20,6 +20,12 @@ public:
     RenderComponent() : IRenderComponent() {
         _XSprite.setColor(Red);
     }
+
+    void SetPosition(const Vector2f &pos) override
+    {
+        _XSprite.setPosition(pos);
+    }
+
     Drawable const& GetDrawable() const
     {
         return _XSprite;

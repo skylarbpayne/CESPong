@@ -21,6 +21,12 @@ public:
     RenderComponent() : IRenderComponent() {
         _XText.setString("Text");
     }
+
+    void SetPosition(const Vector2f &pos) override
+    {
+        _XText.setPosition(pos);
+    }
+
     RectangleShape const& GetDrawable() const
     {
         return _XText;
