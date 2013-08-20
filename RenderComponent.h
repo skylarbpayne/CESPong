@@ -6,24 +6,23 @@
  */
 
 #pragma once
-
-#include "IComponent.h"
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include <lua.hpp>
+#include "IRenderComponent.h"
 
 using namespace std;
 using namespace sf;
 
 
-class RenderComponent : public IComponent
+class RenderComponent : public IRenderComponent
 {
 friend class RenderSystem;
 private:
     CircleShape _Circle;
 public:
-    RenderComponent() : IComponent("Render") { _Circle.setRadius(10); _Circle.setFillColor(sf::Color::Red); }
-    CircleShape const& GetShape() const
+    RenderComponent() : IRenderComponent() {
+        _Circle.setRadius(10);
+        _Circle.setFillColor(Color::Red);
+    }
+    Drawable const& GetDrawable() const
     {
         return _Circle;
     }
