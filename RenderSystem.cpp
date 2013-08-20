@@ -5,7 +5,7 @@
  * Source File:  RenderSystem.cpp
  */
 #include "Entity.h"
-#include "RenderComponent.h"
+#include "IRenderComponent.h"
 #include "RenderSystem.h"
 
 void RenderSystem::Update(unsigned int dt)
@@ -16,8 +16,8 @@ void RenderSystem::Update(unsigned int dt)
     {
         Entity* e = this->GetEntity(*it);
 
-        RenderComponent* rc = e->GetComponent<RenderComponent>("Render");
-        this->GetWindow()->draw(rc->GetShape());
+        IRenderComponent* rc = e->GetComponent<IRenderComponent>("Render");
+        this->GetWindow()->draw(rc->GetDrawable());
 
     }
 }
@@ -32,6 +32,6 @@ bool RenderSystem::ValidateEntity(unsigned int ID)
 void RenderSystem::OnMessage(EntityMovedMessage& msg)
 {
     Entity* e = this->GetEntity(msg.ID);
-    RenderComponent* rc = e->GetComponent<RenderComponent>("Render");
-    rc->_Circle.setPosition(msg.newPosition);
+    IRenderComponent* rc = e->GetComponent<IRenderComponent>("Render");
+    rc->GetDrawable().
 }

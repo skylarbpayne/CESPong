@@ -16,5 +16,6 @@ public:
     IRenderComponent() : IComponent("Render") {
     }
     virtual sf::Drawable const& GetDrawable() const = 0;
+    virtual void SetPosition(sf::Vector2f const& pos) = 0;
     virtual ~IRenderComponent( ) {    }
 };
