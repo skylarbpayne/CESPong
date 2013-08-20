@@ -19,7 +19,10 @@
 #include "PositionComponent.h"
 #include "MovementComponent.h"
 #include "MovementSystem.h"
-#include "RenderComponent.h"
+#include "CircleComponent.h"
+#include "RectangleComponent.h"
+#include "SpriteComponent.h"
+#include "TextComponent.h"
 #include "Entity.h"
 #include "RenderSystem.h"
 #include "ScriptableBehavior.h"
@@ -41,7 +44,10 @@ bool TestScene::Load()
     ef.Register("Position", []() { return new PositionComponent(); });
     ef.Register("Movement", []() { return new MovementComponent(); });
     ef.Register("Collider", []() { return new ColliderComponent(); });
-    ef.Register("Render", []() { return new RenderComponent(); });
+    ef.Register("Circle", []() { return new CircleComponent(); });
+    ef.Register("Rectangle", []() { return new RectangleComponent(); });
+    ef.Register("Sprite", []() { return new SpriteComponent(); });
+    ef.Register("Text", []() { return new TextComponent(); });
 
     ef.Create("entity.lua", 50, 50);
     ef.Create("entity2.lua", 400, 400);

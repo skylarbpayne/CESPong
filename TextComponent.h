@@ -13,13 +13,13 @@ using namespace std;
 using namespace sf;
 
 
-class RenderComponent : public IRenderComponent, public ResourceAccessor
+class TextComponent : public IRenderComponent, public ResourceAccessor
 {
 friend class RenderSystem;
 private:
     Text _XText;
 public:
-    RenderComponent() : IRenderComponent() {
+    TextComponent() : IRenderComponent() {
         _XText.setString("Text");
     }
 
@@ -28,7 +28,7 @@ public:
         _XText.setPosition(pos);
     }
 
-    RectangleShape const& GetDrawable() const
+    Text const& GetDrawable() const
     {
         return _XText;
     }
@@ -41,25 +41,49 @@ public:
     void setSize(unsigned int i){
         _XText.setCharacterSize(i);
     }
-    void setStyle(Style const& sT){
+    void setStyle(Uint32 sT){
         _XText.setStyle(sT);
     }
     void setColor(Color const& c){
         _XText.setColor(c);
     }
-    string const& getText(){
+    String const& getText(){
         return _XText.getString();
     }
-    Font const& getFont(){
-       _XText.getFont();
+    Font const* getFont(){
+       return _XText.getFont();
     }
     unsigned int getSize(){
-        _XText.getCharacterSize();
+        return _XText.getCharacterSize();
     }
-    Style const& getStyle(){
-        _XText.getStyle();
+    Uint32 getStyle(){
+        return _XText.getStyle();
     }
     Color const& getColor(){
         return _XText.getColor();
+    }
+
+    void Load(lua_State *L) override
+    {
+        lua_pushstring(L, "font");
+        lua_gettable(L, -2);
+        setFont(lua_tostring(L, -1));
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "size");
+        lua_gettable(L, -2);
+        setSize(lua_tonumber(L, -1));
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "text");
+        lua_gettable(L, -2);
+        _XText.setString(lua_tostring(L, -1));
+        lua_pop(L, 1);
+
+        lua_getglobal(L, "x");
+        lua_getglobal(L, "y");
+
+        _XText.setPosition(lua_tonumber(L, -2), lua_tonumber(L, -1));
+        lua_pop(L, 2);
     }
 };

@@ -12,14 +12,14 @@
 using namespace std;
 using namespace sf;
 
-class RenderComponent : public IRenderComponent, public ResourceAccessor
+class SpriteComponent : public IRenderComponent, public ResourceAccessor
 {
 friend class RenderSystem;
 private:
     Sprite _XSprite;
 public:
-    RenderComponent() : IRenderComponent() {
-        _XSprite.setColor(Red);
+    SpriteComponent() : IRenderComponent() {
+        _XSprite.setColor(sf::Color::Red);
     }
 
     void SetPosition(const Vector2f &pos) override
@@ -40,7 +40,21 @@ public:
     Color const getSpriteColor(){
         return _XSprite.getColor();
     }
-    Texture const getSpriteTexture(){
+    Texture const* getSpriteTexture(){
         return _XSprite.getTexture();
+    }
+
+    void Load(lua_State *L) override
+    {
+        lua_pushstring(L, "texture");
+        lua_gettable(L, -2);
+        setSpriteTexture(lua_tostring(L, -1));
+        lua_pop(L, 1);
+
+        lua_getglobal(L, "x");
+        lua_getglobal(L, "y");
+
+        _XSprite.setPosition(lua_tonumber(L, -2), lua_tonumber(L, -1));
+        lua_pop(L, 2);
     }
 };

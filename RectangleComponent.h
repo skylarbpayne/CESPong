@@ -12,15 +12,15 @@ using namespace std;
 using namespace sf;
 
 
-class RenderComponent : public IRenderComponent
+class RectangleComponent : public IRenderComponent
 {
 friend class RenderSystem;
 private:
     RectangleShape _Rectangle;
 public:
-    RenderComponent() : IRenderComponent() {
+    RectangleComponent() : IRenderComponent() {
         _Rectangle.setSize(Vector2f(100, 50));
-        _Rectangle.setFillColor(Red);
+        _Rectangle.setFillColor(sf::Color::Red);
     }
 
     void SetPosition(const Vector2f &pos) override
@@ -33,15 +33,38 @@ public:
         return _Rectangle;
     }
     void setSize(float x, float y){
-        _Rectangle.setSize(Vector2f(x, y))
+        _Rectangle.setSize(Vector2f(x, y));
     }
     void setColor(Color const& c){
         _Rectangle.setFillColor(c);
     }
-    Vector2f & const getSize(){
+    Vector2f const& getSize(){
         return _Rectangle.getSize();
     }
     Color const& getColor(){
         return _Rectangle.getFillColor();
+    }
+
+    void Load(lua_State *L) override
+    {
+        sf::Vector2f dim;
+        sf::Vector2f pos;
+
+        lua_pushstring(L, "w");
+        lua_gettable(L, -2);
+        dim.x = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "h");
+        lua_gettable(L, -2);
+        dim.y = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        _Rectangle.setSize(dim);
+
+        lua_getglobal(L, "x");
+        lua_getglobal(L, "y");
+
+        _Rectangle.setPosition(lua_tonumber(L, -2), lua_tonumber(L, -1));
     }
 };
