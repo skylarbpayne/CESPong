@@ -49,6 +49,9 @@ bool TestScene::Load()
     ef.Register("Sprite", []() { return new SpriteComponent(); });
     ef.Register("Text", []() { return new TextComponent(); });
 
+    rm.AddFont("Lorena.ttf");
+    rm.AddTexture("spaceship.png");
+
     ef.Create("entity.lua", 50, 50);
     ef.Create("entity2.lua", 400, 400);
     return true;

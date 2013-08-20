@@ -18,10 +18,6 @@ friend class RenderSystem;
 private:
     Sprite _XSprite;
 public:
-    SpriteComponent() : IRenderComponent() {
-        _XSprite.setColor(sf::Color::Red);
-    }
-
     void SetPosition(const Vector2f &pos) override
     {
         _XSprite.setPosition(pos);
