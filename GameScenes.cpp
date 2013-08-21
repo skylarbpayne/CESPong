@@ -1,44 +1,42 @@
-
-
-#include "TestScene.h"
 /**
-    * TestScene is the hub to test all code changes.
+    * Declares all GameScenes: Splash Screen, Main Menu, Play, etc.
     *
     * Author: Skylar Payne
-    * Date: 7/31/2013
-    * File: TestScene.h
+    * Date: 8/21/2013
+    * File: GameScenes.cpp
 **/
 
-#include <SFML/Graphics.hpp>
+#include "GameScenes.h"
+
 #include "IListener.h"
 
 #include <lua.hpp>
 #include "LuaBindings.h"
-#include "Logger.h"
 
 #include "PositionComponent.h"
 #include "MovementComponent.h"
-#include "MovementSystem.h"
+#include "ColliderComponent.h"
 #include "CircleComponent.h"
 #include "RectangleComponent.h"
-#include "SpriteComponent.h"
 #include "TextComponent.h"
-#include "Entity.h"
-#include "RenderSystem.h"
 #include "ScriptableBehavior.h"
+
+#include "Entity.h"
+
+#include "MovementSystem.h"
 #include "CollisionSystem.h"
-#include "ColliderComponent.h"
+#include "RenderSystem.h"
 #include "BehaviorSystem.h"
 
-bool TestScene::Load()
+bool PlayScene::Load()
 {
     RenderSystem* rs = new RenderSystem();
-    sm.Add(rs);
     MovementSystem* ms = new MovementSystem();
-    sm.Add(ms);
     CollisionSystem* cs = new CollisionSystem();
-    sm.Add(cs);
     BehaviorSystem* bs = new BehaviorSystem();
+    sm.Add(rs);
+    sm.Add(ms);
+    sm.Add(cs);
     sm.Add(bs);
 
     ef.Register("Position", []() { return new PositionComponent(); });
@@ -46,18 +44,15 @@ bool TestScene::Load()
     ef.Register("Collider", []() { return new ColliderComponent(); });
     ef.Register("Circle", []() { return new CircleComponent(); });
     ef.Register("Rectangle", []() { return new RectangleComponent(); });
-    ef.Register("Sprite", []() { return new SpriteComponent(); });
     ef.Register("Text", []() { return new TextComponent(); });
 
-    rm.AddFont("Lorena.ttf");
-    rm.AddTexture("spaceship.png");
+    //Add fonts/textures/sounds here
 
-    ef.Create("entity.lua", 50, 50);
-    ef.Create("entity2.lua", 400, 400);
+    //create entities here
     return true;
 }
 
-void TestScene::Update()
+void PlayScene::Update()
 {
     sf::Event event;
     while(this->GetWindow()->pollEvent(event))
@@ -69,29 +64,14 @@ void TestScene::Update()
             Emit<ExitMessage>(msg);
         }
 
-        else if(event.type == sf::Event::KeyPressed)
-        {
-            if(event.key.code == sf::Keyboard::Q)
-            {
-                lua_State* L = luaL_newstate();
-                SetBindings(L);
-                if(luaL_dofile(L, "luatest.lua"))
-                {
-                    g_Logger << lua_tostring(L, -1) << "\n";
-                    lua_pop(L, 1);
-                }
-                lua_close(L);
-            }
-        }
+        this->GetWindow()->clear();
+        em.Update();
+        sm.Update();
+        this->GetWindow()->display();
     }
-
-    this->GetWindow()->clear();
-    em.Update();
-    sm.Update();
-    this->GetWindow()->display();
 }
 
-void TestScene::Unload()
+void PlayScene::Unload()
 {
     rm.Unload();
 }
