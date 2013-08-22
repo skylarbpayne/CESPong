@@ -18,7 +18,7 @@ friend class RenderSystem;
 private:
     CircleShape _Circle;
 public:
-    CircleComponent() : IRenderComponent() {
+    CircleComponent(){
         _Circle.setRadius(10);
         _Circle.setFillColor(Color::Red);
     }
