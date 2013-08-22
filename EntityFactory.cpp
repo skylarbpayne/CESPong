@@ -38,8 +38,6 @@ bool EntityFactory::Register(const char *componentType, std::function<IComponent
  */
 void EntityFactory::Create(const char* entity, float x, float y)
 {
-    Entity* e = new Entity();
-    IComponent* c = nullptr;
     lua_State* L = luaL_newstate();
 
     if(luaL_dofile(L, entity))
@@ -47,12 +45,16 @@ void EntityFactory::Create(const char* entity, float x, float y)
         g_Logger << lua_error(L) << lua_tostring(L, -1) << "\n";
         g_Logger.flush();
         lua_pop(L, 1);
+        return;
     }
 
     lua_pushnumber(L, x);
     lua_pushnumber(L, y);
     lua_setglobal(L, "y");
     lua_setglobal(L, "x");
+
+    Entity* e = new Entity();
+    IComponent* c = nullptr;
 
     lua_settop(L, 0);
     lua_getglobal(L, "Components");
@@ -64,7 +66,15 @@ void EntityFactory::Create(const char* entity, float x, float y)
         while(lua_next(L, 1) != 0)
         {
             const char* temp = lua_tostring(L, -2);
-            if(_ConstructorMap.find(temp) == _ConstructorMap.end())
+
+            if(strcmp(temp, "Tag") == 0)
+            {
+                e->SetTag(lua_tostring(L, -1));
+                lua_pop(L, 1);
+                continue;
+            }
+
+            else if(_ConstructorMap.find(temp) == _ConstructorMap.end())
             {
                 g_Logger << temp << " component type not found. Continuing\n";
                 lua_pop(L, 1);

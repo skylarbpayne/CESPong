@@ -18,7 +18,7 @@ friend class EntityManager;
 friend class BehaviorSystem;
 private:
     unsigned int _ID;
-    const char* _Tag;
+    std::string _Tag;
 	std::list<IComponent*> _Components;
     std::list<IBehavior*> _Behaviors;
 private:
@@ -29,7 +29,7 @@ public:
     ~Entity();
 
     unsigned int GetID() const { return _ID; }
-    const char* GetTag() const { return _Tag; }
+    const char* GetTag() const { return _Tag.c_str(); }
     void SetTag(const char* tag) { _Tag = tag; }
 
     bool AttachComponent(IComponent* comp);
