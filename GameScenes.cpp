@@ -46,9 +46,8 @@ bool PlayScene::Load()
     ef.Register("Rectangle", []() { return new RectangleComponent(); });
     ef.Register("Text", []() { return new TextComponent(); });
 
-    //Add fonts/textures/sounds here
-
-    //create entities here
+    ef.Create("scripts/paddle.lua", 30, 0);
+    ef.Create("scripts/ball.lua", 400, 300);
     return true;
 }
 
@@ -63,12 +62,12 @@ void PlayScene::Update()
             msg.ExitStatus = 0;
             Emit<ExitMessage>(msg);
         }
-
-        this->GetWindow()->clear();
-        em.Update();
-        sm.Update();
-        this->GetWindow()->display();
     }
+
+    this->GetWindow()->clear();
+    em.Update();
+    sm.Update();
+    this->GetWindow()->display();
 }
 
 void PlayScene::Unload()
