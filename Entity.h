@@ -26,16 +26,9 @@ private:
     bool FindComponent(const char* type, std::list<IComponent*>::iterator& loc);
     bool FindBehavior(const char* type, std::list<IBehavior*>::iterator& loc);
 public:
-    Entity(const char* tag = "") : _Tag(tag) { }
     ~Entity();
 
     unsigned int GetID() const { return _ID; }
-<<<<<<< HEAD
-    const char* GetTag() const { return _Tag; }
-=======
-    const char* GetTag() const { return _Tag.c_str(); }
->>>>>>> 21997b1026dba1d287f279a3b8276c25038c1827
-    void SetTag(const char* tag) { _Tag = tag; }
 
     bool AttachComponent(IComponent* comp);
     void RemoveComponent(const char* type);
