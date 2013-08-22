@@ -19,7 +19,7 @@ friend class RenderSystem;
 private:
     Text _XText;
 public:
-    TextComponent() : IRenderComponent() {
+    TextComponent(){
         _XText.setString("Text");
     }
 
