@@ -18,15 +18,19 @@ friend class EntityManager;
 friend class BehaviorSystem;
 private:
     unsigned int _ID;
+    const char* _Tag;
 	std::list<IComponent*> _Components;
     std::list<IBehavior*> _Behaviors;
 private:
     bool FindComponent(const char* type, std::list<IComponent*>::iterator& loc);
     bool FindBehavior(const char* type, std::list<IBehavior*>::iterator& loc);
 public:
+    Entity(const char* tag = "") : _Tag(tag) { }
     ~Entity();
 
     unsigned int GetID() const { return _ID; }
+    const char* GetTag() const { return _Tag; }
+    void SetTag(const char* tag) { _Tag = tag; }
 
     bool AttachComponent(IComponent* comp);
     void RemoveComponent(const char* type);

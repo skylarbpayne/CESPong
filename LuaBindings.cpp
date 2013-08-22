@@ -123,6 +123,34 @@ static int GetCursorPosition(lua_State* L)
     lua_pushnumber(L, sf::Mouse::getPosition(la.GetWindow()).y);
     return 2;
 }
+
+/**
+ * @brief GetEntityTag gets the tag of a specified entity
+ * @param L the calling lua thread
+ * @return the tag, if the entity exists, an error string otherwise
+ */
+static int GetEntityTag(lua_State* L)
+{
+    if(lua_gettop(L) != 1)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
+    LuaAccessor la;
+    unsigned int id = (unsigned int)lua_tonumber(L, 1);
+    Entity* e = la.GetEntity(id);
+
+    if(e)
+    {
+        lua_pushstring(L, e->GetTag());
+        return 1;
+    }
+
+    lua_pushstring(L, "Entity does not exist");
+    return 1;
+}
+
 /**
  * @brief GetEntityPosition gets the position of a specified entity
  * @param L the calling lua thread
@@ -267,6 +295,9 @@ void SetBindings(lua_State *L)
 
     lua_pushcfunction(L, isKeyPressed);
     lua_setglobal(L, "is_key_pressed");
+
+    lua_pushcfunction(L, GetEntityTag);
+    lua_setglobal(L, "get_entity_tag");
 
     lua_pushcfunction(L, GetEntityPosition);
     lua_setglobal(L, "get_entity_position");
