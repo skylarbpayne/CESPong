@@ -22,6 +22,7 @@ void AIControlSystem::Update(unsigned int dt)
 
     for(it = _EntitiesToUpdate.begin(); it != _EntitiesToUpdate.end(); ++it)
     {
+        float ease = 0.8f;
         Entity* e = this->GetEntity(*it);
         Entity* b = this->GetEntity(_BallID);
 
@@ -30,13 +31,14 @@ void AIControlSystem::Update(unsigned int dt)
         sf::Vector2f vel;
 
         float yDis = ballPos.y - aiPos.y;
+        vel.y = yDis * ease;
 
-        if(yDis < 0)
+        if(yDis < -5)
         {
             vel.y = -5;
         }
 
-        else if(yDis > 0)
+        else if(yDis > 5)
         {
             vel.y = 5;
         }
