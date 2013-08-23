@@ -140,4 +140,6 @@ void SystemManager::Update()
             (*it)->Update(currentTime - _LastTime);
 		}
 	}
+
+    _LastTime = currentTime;
 }
