@@ -68,6 +68,11 @@ void BehaviorSystem::OnMessage(CollisionMessage& msg)
         (*it)->OnCollide(msg.ID2, msg.norm);
     }
 
+    if(msg.ID1 == msg.ID2)
+    {
+        return;
+    }
+
     for(it = e2->_Behaviors.begin(); it != e2->_Behaviors.end(); it++)
     {
         (*it)->OnCollide(msg.ID1, msg.norm);

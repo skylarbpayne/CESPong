@@ -25,6 +25,7 @@
 
 #include "MovementSystem.h"
 #include "CollisionSystem.h"
+#include "BoundarySystem.h"
 #include "RenderSystem.h"
 #include "BehaviorSystem.h"
 
@@ -35,11 +36,13 @@ bool PlayScene::Load()
     RenderSystem* rs = new RenderSystem();
     MovementSystem* ms = new MovementSystem();
     CollisionSystem* cs = new CollisionSystem();
+    BoundarySystem* bos = new BoundarySystem();
     BehaviorSystem* bs = new BehaviorSystem();
     AIControlSystem* as = new AIControlSystem();
     sm.Add(rs);
     sm.Add(ms);
     sm.Add(cs);
+    sm.Add(bos);
     sm.Add(bs);
     sm.Add(as);
 
