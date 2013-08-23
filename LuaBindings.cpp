@@ -88,6 +88,23 @@ static int DestroyEntity(lua_State* L)
 }
 
 /**
+ * @brief Wait pauses the program for a certain number of milliseconds
+ * @param L the calling lua thread
+ * @return no return value
+ */
+static int Wait(lua_State* L)
+{
+    if(lua_gettop(L) != 1)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
+    sf::sleep(sf::milliseconds(lua_tonumber(L, -1)));
+    return 0;
+}
+
+/**
  * @brief GetWindowSize gets the dimensions of the window
  * @param L the calling lua thread
  * @return the width and height of the window, otherwise an error message
@@ -102,8 +119,8 @@ static int GetWindowSize(lua_State* L)
 
     LuaAccessor la;
 
-    lua_pushnumber(L, la.GetWindow()->getSize().x);
-    lua_pushnumber(L, la.GetWindow()->getSize().y);
+    lua_pushnumber(L, la.GetWindow().getSize().x);
+    lua_pushnumber(L, la.GetWindow().getSize().y);
     return 2;
 }
 
@@ -309,6 +326,9 @@ void SetBindings(lua_State *L)
 
     lua_pushcfunction(L, DestroyEntity);
     lua_setglobal(L, "destroy_entity");
+
+    lua_pushcfunction(L, Wait);
+    lua_setglobal(L, "wait");
 
     lua_pushcfunction(L, GetWindowSize);
     lua_setglobal(L, "get_window_size");
