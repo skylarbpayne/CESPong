@@ -88,6 +88,26 @@ static int DestroyEntity(lua_State* L)
 }
 
 /**
+ * @brief GetWindowSize gets the dimensions of the window
+ * @param L the calling lua thread
+ * @return the width and height of the window, otherwise an error message
+ */
+static int GetWindowSize(lua_State* L)
+{
+    if(lua_gettop(L) != 0)
+    {
+        lua_pushstring(L, "Error: incorrect number of parameters");
+        return 1;
+    }
+
+    LuaAccessor la;
+
+    lua_pushnumber(L, la.GetWindow()->getSize().x);
+    lua_pushnumber(L, la.GetWindow()->getSize().y);
+    return 2;
+}
+
+/**
  * @brief GetKeyState gets the key state of a certain key
  * @param L the calling lua thread
  * @return true if key was pressed, false if not pressed, or error message if failed
@@ -289,6 +309,9 @@ void SetBindings(lua_State *L)
 
     lua_pushcfunction(L, DestroyEntity);
     lua_setglobal(L, "destroy_entity");
+
+    lua_pushcfunction(L, GetWindowSize);
+    lua_setglobal(L, "get_window_size");
 
     lua_pushcfunction(L, GetCursorPosition);
     lua_setglobal(L, "get_cursor_position");
