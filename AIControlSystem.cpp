@@ -18,6 +18,15 @@
  */
 void AIControlSystem::Update(unsigned int dt)
 {
+    _Accumulator += dt;
+
+    if(_Accumulator < 30000)
+    {
+        return;
+    }
+
+    _Accumulator -= 30000;
+
     std::set<unsigned int>::iterator it;
 
     for(it = _EntitiesToUpdate.begin(); it != _EntitiesToUpdate.end(); ++it)

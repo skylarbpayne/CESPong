@@ -13,9 +13,10 @@
 class AIControlSystem : public ISystem
 {
 private:
+    unsigned int _Accumulator;
     unsigned int _BallID;
 public:
-    AIControlSystem() : ISystem("AI Control") { }
+    AIControlSystem() : ISystem("AI Control"), _Accumulator(0) { }
 
     void Update(unsigned int dt) override;
     bool ValidateEntity(unsigned int ID) override;
