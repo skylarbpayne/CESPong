@@ -50,9 +50,9 @@ bool PlayScene::Load()
     ef.Register("Rectangle", []() { return new RectangleComponent(); });
     ef.Register("Text", []() { return new TextComponent(); });
 
+    ef.Create("scripts/ball.lua", 400, 300);
     ef.Create("scripts/paddle.lua", 0, this->GetWindow()->getSize().y / 2);
     ef.Create("scripts/ai_paddle.lua", this->GetWindow()->getSize().x - 10, this->GetWindow()->getSize().y / 2);
-    ef.Create("scripts/ball.lua", 400, 300);
     return true;
 }
 
