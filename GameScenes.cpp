@@ -28,16 +28,20 @@
 #include "RenderSystem.h"
 #include "BehaviorSystem.h"
 
+#include "AIControlSystem.h"
+
 bool PlayScene::Load()
 {
     RenderSystem* rs = new RenderSystem();
     MovementSystem* ms = new MovementSystem();
     CollisionSystem* cs = new CollisionSystem();
     BehaviorSystem* bs = new BehaviorSystem();
+    AIControlSystem* as = new AIControlSystem();
     sm.Add(rs);
     sm.Add(ms);
     sm.Add(cs);
     sm.Add(bs);
+    sm.Add(as);
 
     ef.Register("Position", []() { return new PositionComponent(); });
     ef.Register("Movement", []() { return new MovementComponent(); });
@@ -46,7 +50,8 @@ bool PlayScene::Load()
     ef.Register("Rectangle", []() { return new RectangleComponent(); });
     ef.Register("Text", []() { return new TextComponent(); });
 
-    ef.Create("scripts/paddle.lua", 30, 0);
+    ef.Create("scripts/paddle.lua", 10, this->GetWindow()->getSize().y / 2);
+    ef.Create("scripts/ai_paddle.lua", this->GetWindow()->getSize().x - 20, this->GetWindow()->getSize().y / 2);
     ef.Create("scripts/ball.lua", 400, 300);
     return true;
 }
