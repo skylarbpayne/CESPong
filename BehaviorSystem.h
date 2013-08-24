@@ -1,9 +1,9 @@
 /**
-    * The BehaviorManager manages the updating of and facilitation of messages to behaviors.
+    * The BehaviorSystem manages the updating of and facilitation of messages to behaviors.
     *
     * Author: Skylar Payne
     * Date: 7/28/2013
-    * File: BehaviorManager.h
+    * File: BehaviorSystem.h
 **/
 
 #pragma once

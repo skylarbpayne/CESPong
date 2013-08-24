@@ -1,9 +1,9 @@
 /**
-    * Definition of the BehaviorManager class as defined in BehaviorManager.h
+    * Definition of the BehaviorSystem class as defined in BehaviorSystem.h
     *
     * Author: Skylar Payne
     * Date: 7/28/2013
-    * File: IBehavior.cpp
+    * File: BehaviorSystem.cpp
 **/
 
 #include "BehaviorSystem.h"
