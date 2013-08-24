@@ -27,6 +27,7 @@
 #include "CollisionSystem.h"
 #include "BoundarySystem.h"
 #include "RenderSystem.h"
+#include "ScoringSystem.h"
 #include "BehaviorSystem.h"
 
 #include "AIControlSystem.h"
@@ -37,11 +38,13 @@ bool PlayScene::Load()
     MovementSystem* ms = new MovementSystem();
     CollisionSystem* cs = new CollisionSystem();
     BoundarySystem* bos = new BoundarySystem();
+    ScoringSystem* ss = new ScoringSystem();
     BehaviorSystem* bs = new BehaviorSystem();
     AIControlSystem* as = new AIControlSystem();
     sm.Add(rs);
     sm.Add(ms);
     sm.Add(cs);
+    sm.Add(ss);
     sm.Add(bos);
     sm.Add(bs);
     sm.Add(as);
@@ -52,6 +55,8 @@ bool PlayScene::Load()
     ef.Register("Circle", []() { return new CircleComponent(); });
     ef.Register("Rectangle", []() { return new RectangleComponent(); });
     ef.Register("Text", []() { return new TextComponent(); });
+
+    rm.AddFont("resources/Corki-Regular.otf");
 
     ef.Create("scripts/ball.lua", 400, 300);
     ef.Create("scripts/paddle.lua", 0, this->GetWindow()->getSize().y / 2);

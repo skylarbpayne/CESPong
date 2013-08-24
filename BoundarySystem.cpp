@@ -11,6 +11,10 @@
 #include "PositionComponent.h"
 #include "Entity.h"
 
+/**
+ * @brief BoundarySystem::Update maintains that all game objects stay within the game window
+ * @param dt the time splice between frames
+ */
 void BoundarySystem::Update(unsigned int dt)
 {
     std::set<unsigned int>::iterator it;
@@ -50,6 +54,11 @@ void BoundarySystem::Update(unsigned int dt)
     }
 }
 
+/**
+ * @brief BoundarySystem::ValidateEntity validates entities that have Collider and Position components
+ * @param ID the entity to validate
+ * @return true if the entity has a Collider and Position component, false otherwise
+ */
 bool BoundarySystem::ValidateEntity(unsigned int ID)
 {
     Entity* e = this->GetEntity(ID);
