@@ -58,9 +58,15 @@ bool PlayScene::Load()
 
     rm.AddFont("resources/Corki-Regular.otf");
 
-    ef.Create("scripts/ball.lua", 400, 300);
+    ef.Create("scripts/ball.lua", this->GetWindow()->getSize().x / 2, this->GetWindow()->getSize().y / 2);
     ef.Create("scripts/paddle.lua", 0, this->GetWindow()->getSize().y / 2);
     ef.Create("scripts/ai_paddle.lua", this->GetWindow()->getSize().x - 10, this->GetWindow()->getSize().y / 2);
+
+    PushEntityMessage msg;
+    msg.ID = 0;
+    msg.newVelocity.x = (rand() % 2) ? -7 : 7;
+    msg.newVelocity.y = (rand() % 2) ? -4 : 4;
+    Emit<PushEntityMessage>(msg);
     return true;
 }
 
