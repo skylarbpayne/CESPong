@@ -23,4 +23,5 @@ public:
 
     void Update(unsigned int dt) override;
     bool ValidateEntity(unsigned int ID) override;
+    void Reset();
 };

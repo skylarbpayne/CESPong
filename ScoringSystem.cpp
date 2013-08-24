@@ -28,11 +28,13 @@ void ScoringSystem::Update(unsigned int dt)
     if(pc->GetPosition().x + cc->GetOffset().x <= 0.0f)
     {
         _Player2Score++;
+        Reset();
     }
 
     else if(pc->GetPosition().x + cc->GetOffset().x + cc->GetDimensions().x >= this->GetWindow()->getSize().x)
     {
         _Player1Score++;
+        Reset();
     }
 
     sf::Text txt;
@@ -62,7 +64,50 @@ bool ScoringSystem::ValidateEntity(unsigned int ID)
     if(strcmp(e->GetTag(), "Ball") == 0)
     {
         _BallID = ID;
+        return false;
     }
 
-    return false;
+    else
+    {
+        return true;
+    }
+}
+
+void ScoringSystem::Reset()
+{
+    std::set<unsigned int>::iterator it;
+    Entity* e = nullptr;
+    PositionComponent* pc = nullptr;
+    sf::Vector2f pos;
+
+    for(it = _EntitiesToUpdate.begin(); it != _EntitiesToUpdate.begin(); it++)
+    {
+        e = this->GetEntity(*it);
+        pc = e->GetComponent<PositionComponent>("Position");
+        pos = pc->GetPosition();
+        pos.y = this->GetWindow()->getSize().y / 2;
+
+        MoveEntityMessage msg;
+        msg.ID = *it;
+        msg.newPosition = pos;
+        Emit<MoveEntityMessage>(msg);
+    }
+
+    e = this->GetEntity(_BallID);
+    pc = e->GetComponent<PositionComponent>("Position");
+    pos.x = this->GetWindow()->getSize().x / 2;
+    pos.y = this->GetWindow()->getSize().y / 2;
+
+    MoveEntityMessage msg;
+    msg.ID = _BallID;
+    msg.newPosition = pos;
+    Emit<MoveEntityMessage>(msg);
+
+    pos.x = (rand() % 2) ? -7 : 7;
+    pos.y = (rand() % 2) ? 4 : -4;
+
+    PushEntityMessage pmsg;
+    pmsg.ID = _BallID;
+    pmsg.newVelocity = pos;
+    Emit<PushEntityMessage>(pmsg);
 }
