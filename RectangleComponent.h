@@ -49,6 +49,7 @@ public:
     {
         sf::Vector2f dim;
         sf::Vector2f pos;
+        sf::Color color;
 
         lua_pushstring(L, "w");
         lua_gettable(L, -2);
@@ -60,7 +61,28 @@ public:
         dim.y = lua_tonumber(L, -1);
         lua_pop(L, 1);
 
+        lua_pushstring(L, "r");
+        lua_gettable(L, -2);
+        color.r = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "g");
+        lua_gettable(L, -2);
+        color.g = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "b");
+        lua_gettable(L, -2);
+        color.b = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
+        lua_pushstring(L, "a");
+        lua_gettable(L, -2);
+        color.a = lua_tonumber(L, -1);
+        lua_pop(L, 1);
+
         _Rectangle.setSize(dim);
+        _Rectangle.setFillColor(color);
 
         lua_getglobal(L, "x");
         lua_getglobal(L, "y");
