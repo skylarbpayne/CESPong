@@ -18,6 +18,18 @@
 #include "EntityManager.h"
 #include "EntityFactory.h"
 
+class SplashScene : public IScene, public ResourceAccessor, public WindowAccessor
+{
+private:
+    sf::Clock _Clock;
+    sf::Sprite _Splash;
+    ResourceManager rm;
+public:
+    bool Load() override;
+    void Update() override;
+    void Unload() override;
+};
+
 class PlayScene : public IScene, public WindowAccessor, public IListener<PointScoredMessage>, public EntityAccessor
 {
 private:

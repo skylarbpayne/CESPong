@@ -32,6 +32,41 @@
 
 #include "AIControlSystem.h"
 
+bool SplashScene::Load()
+{
+    rm.AddTexture("resources/splash.png");
+    _Splash.setTexture(*this->GetTexture("resources/splash.png"));
+    return true;
+}
+
+void SplashScene::Update()
+{
+    sf::Color color;
+    color.r = 255;
+    color.g = 255;
+    color.b = 255;
+
+    color.a = 255 - _Clock.getElapsedTime().asSeconds() * (255 / 3);
+
+    _Splash.setColor(color);
+
+    this->GetWindow()->clear();
+    this->GetWindow()->draw(_Splash);
+    this->GetWindow()->display();
+
+    if(color.a == 0)
+    {
+        ChangeSceneMessage msg;
+        msg.NextScene = new PlayScene();
+        Emit<ChangeSceneMessage>(msg);
+    }
+}
+
+void SplashScene::Unload()
+{
+    rm.Unload();
+}
+
 /**
  * @brief PlayScene::Load sets up the game scene
  * @return true if everything loaded correctly, false otherwise
@@ -87,7 +122,7 @@ void PlayScene::Update()
             Emit<ExitMessage>(msg);
         }
 
-        else if(event.type == sf::Event::KeyPressed && _BeginPoint)
+        else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space && _BeginPoint)
         {
             _BeginPoint = false;
 
