@@ -32,6 +32,10 @@
 
 #include "AIControlSystem.h"
 
+/**
+ * @brief SplashScene::Load
+ * @return true if everything loaded properly
+ */
 bool SplashScene::Load()
 {
     rm.AddTexture("resources/splash.png");
@@ -57,12 +61,116 @@ void SplashScene::Update()
     if(color.a == 0)
     {
         ChangeSceneMessage msg;
-        msg.NextScene = new PlayScene();
+        msg.NextScene = new MainMenuScene();
         Emit<ChangeSceneMessage>(msg);
     }
 }
 
 void SplashScene::Unload()
+{
+    rm.Unload();
+}
+
+bool MainMenuScene::Load()
+{
+    rm.AddFont("resources/Corki-Regular.otf");
+
+    _Title.setString("Pong");
+    _Title.setFont(*this->GetFont("resources/Corki-Regular.otf"));
+    _Title.setCharacterSize(36);
+    _Title.setColor(sf::Color::White);
+    _Title.setPosition((this->GetWindow()->getSize().x - _Title.getGlobalBounds().width) / 2, 60);
+
+    _Buttons[0].setString("Play (1-P)");
+    _Buttons[1].setString("Play (2-P)");
+    _Buttons[2].setString("Controls");
+
+    for(unsigned int i = 0; i < 3; i++)
+    {
+        _Buttons[i].setFont(*this->GetFont("resources/Corki-Regular.otf"));
+        _Buttons[i].setColor(sf::Color::White);
+        _Buttons[i].setPosition((this->GetWindow()->getSize().x - _Buttons[i].getGlobalBounds().width) / 2, 120 * i + 220);
+
+        _ButtonContainers[i].setFillColor(sf::Color::Blue);
+        _ButtonContainers[i].setPosition(_Buttons[i].getPosition().x - 10, _Buttons[i].getPosition().y - 10);
+        sf::Vector2f size;
+        size.x = _Buttons[i].getGlobalBounds().width + 20;
+        size.y = _Buttons[i].getGlobalBounds().height + 20;
+        _ButtonContainers[i].setSize(size);
+    }
+
+
+
+    return true;
+}
+
+void MainMenuScene::Update()
+{
+    sf::Event event;
+    while(this->GetWindow()->pollEvent(event))
+    {
+        if(event.type == sf::Event::Closed)
+        {
+            ExitMessage msg;
+            msg.ExitStatus = 0;
+            Emit<ExitMessage>(msg);
+        }
+
+        else if(event.type == sf::Event::MouseMoved)
+        {
+            for(unsigned int i = 0; i < 3; i++)
+            {
+                if(_ButtonContainers[i].getGlobalBounds().contains(event.mouseMove.x, event.mouseMove.y))
+                {
+                    _Buttons[i].setColor(sf::Color::Yellow);
+                }
+
+                else
+                {
+                    _Buttons[i].setColor(sf::Color::White);
+                }
+            }
+        }
+
+        else if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Button::Left)
+        {
+            for(unsigned int i = 0; i < 3; i++)
+            {
+                if(_ButtonContainers[i].getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+                {
+                    ChangeSceneMessage msg;
+
+                    switch(i)
+                    {
+                    case 0:
+                        msg.NextScene = new PlayScene();
+                        break;
+                    case 1:
+                        msg.NextScene = new PlayScene();
+                        break;
+                    case 2:
+                        break;
+                    }
+
+                    Emit<ChangeSceneMessage>(msg);
+                }
+            }
+        }
+    }
+
+    this->GetWindow()->clear();
+
+    this->GetWindow()->draw(_Title);
+    for(unsigned int i = 0; i < 3; i++)
+    {
+        this->GetWindow()->draw(_ButtonContainers[i]);
+        this->GetWindow()->draw(_Buttons[i]);
+    }
+
+    this->GetWindow()->display();
+}
+
+void MainMenuScene::Unload()
 {
     rm.Unload();
 }

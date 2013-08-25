@@ -30,6 +30,19 @@ public:
     void Unload() override;
 };
 
+class MainMenuScene : public IScene, public WindowAccessor, public ResourceAccessor
+{
+private:
+    sf::Text _Title;
+    sf::Text _Buttons[3];
+    sf::RectangleShape _ButtonContainers[3];
+    ResourceManager rm;
+public:
+    bool Load() override;
+    void Update() override;
+    void Unload() override;
+};
+
 class PlayScene : public IScene, public WindowAccessor, public IListener<PointScoredMessage>, public EntityAccessor
 {
 private:
