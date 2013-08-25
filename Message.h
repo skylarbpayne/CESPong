@@ -102,3 +102,11 @@ struct PushEntityMessage
     unsigned int ID;
     sf::Vector2f newVelocity;
 };
+
+/**
+ * @brief The PointScoredMessage struct contains the scorer of the point
+ */
+struct PointScoredMessage
+{
+    unsigned int scorer;
+};

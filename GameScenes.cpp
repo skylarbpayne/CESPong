@@ -32,22 +32,28 @@
 
 #include "AIControlSystem.h"
 
+/**
+ * @brief PlayScene::Load sets up the game scene
+ * @return true if everything loaded correctly, false otherwise
+ */
 bool PlayScene::Load()
 {
-    RenderSystem* rs = new RenderSystem();
-    MovementSystem* ms = new MovementSystem();
-    CollisionSystem* cs = new CollisionSystem();
-    BoundarySystem* bos = new BoundarySystem();
-    ScoringSystem* ss = new ScoringSystem();
-    BehaviorSystem* bs = new BehaviorSystem();
-    AIControlSystem* as = new AIControlSystem();
-    sm.Add(rs);
-    sm.Add(ms);
-    sm.Add(cs);
-    sm.Add(ss);
-    sm.Add(bos);
-    sm.Add(bs);
-    sm.Add(as);
+    ISystem* s = nullptr;
+    s = new RenderSystem();
+    sm.Add(s);
+    s = new MovementSystem();
+    sm.Add(s);
+    s = new CollisionSystem();
+    sm.Add(s);
+    s = new BoundarySystem();
+    sm.Add(s);
+    s = new ScoringSystem();
+    sm.Add(s);
+    s = new BehaviorSystem();
+    sm.Add(s);
+    s = new AIControlSystem();
+    sm.Add(s);
+    s = nullptr;
 
     ef.Register("Position", []() { return new PositionComponent(); });
     ef.Register("Movement", []() { return new MovementComponent(); });
@@ -62,14 +68,13 @@ bool PlayScene::Load()
     ef.Create("scripts/paddle.lua", 0, this->GetWindow()->getSize().y / 2);
     ef.Create("scripts/ai_paddle.lua", this->GetWindow()->getSize().x - 10, this->GetWindow()->getSize().y / 2);
 
-    PushEntityMessage msg;
-    msg.ID = 0;
-    msg.newVelocity.x = (rand() % 2) ? -7 : 7;
-    msg.newVelocity.y = (rand() % 2) ? -4 : 4;
-    Emit<PushEntityMessage>(msg);
+    _BeginPoint = true;
     return true;
 }
 
+/**
+ * @brief PlayScene::Update Updates all systems and entities.
+ */
 void PlayScene::Update()
 {
     sf::Event event;
@@ -81,6 +86,17 @@ void PlayScene::Update()
             msg.ExitStatus = 0;
             Emit<ExitMessage>(msg);
         }
+
+        else if(event.type == sf::Event::KeyPressed && _BeginPoint)
+        {
+            _BeginPoint = false;
+
+            PushEntityMessage msg;
+            msg.ID = 0;
+            msg.newVelocity.x = (rand() % 2) ? -7 : 7;
+            msg.newVelocity.y = (rand() % 2) ? -5 : 5;
+            Emit<PushEntityMessage>(msg);
+        }
     }
 
     this->GetWindow()->clear();
@@ -89,7 +105,50 @@ void PlayScene::Update()
     this->GetWindow()->display();
 }
 
+/**
+ * @brief PlayScene::Unload unloads all assets
+ */
 void PlayScene::Unload()
 {
     rm.Unload();
+}
+
+/**
+ * @brief PlayScene::OnMessage
+ * @param msg contains the scorer
+ */
+void PlayScene::OnMessage(PointScoredMessage& msg)
+{
+    PositionComponent* pc = nullptr;
+    sf::Vector2f pos;
+    Entity* e = nullptr;
+
+    for(unsigned int i = 0; i < this->GetEntities().size(); i++)
+    {
+        e = this->GetEntity(i);
+        if(strcmp(e->GetTag(), "Ball") == 0)
+        {
+            pos.x = this->GetWindow()->getSize().x / 2;
+            pos.y = this->GetWindow()->getSize().y / 2;
+            PushEntityMessage pmsg;
+            pmsg.ID = 0;
+            pmsg.newVelocity.x = 0.f;
+            pmsg.newVelocity.y = 0.f;
+            Emit<PushEntityMessage>(pmsg);
+        }
+
+        else
+        {
+            pc = e->GetComponent<PositionComponent>("Position");
+            pos = pc->GetPosition();
+            pos.y = this->GetWindow()->getSize().y / 2;
+        }
+
+        MoveEntityMessage msg;
+        msg.ID = i;
+        msg.newPosition = pos;
+        Emit<MoveEntityMessage>(msg);
+    }
+
+    _BeginPoint = true;
 }
