@@ -47,11 +47,14 @@ class PlayScene : public IScene, public WindowAccessor, public IListener<PointSc
 {
 private:
         bool _BeginPoint;
+        bool _SinglePlayer;
         ResourceManager rm;
         SystemManager sm;
         EntityManager em;
         EntityFactory ef;
 public:
+        PlayScene(bool singlePlayer) : _SinglePlayer(singlePlayer) { }
+
         bool Load() override;
         void Update() override;
         void Unload() override;

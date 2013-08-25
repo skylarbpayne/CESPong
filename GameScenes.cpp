@@ -143,10 +143,10 @@ void MainMenuScene::Update()
                     switch(i)
                     {
                     case 0:
-                        msg.NextScene = new PlayScene();
+                        msg.NextScene = new PlayScene(true);
                         break;
                     case 1:
-                        msg.NextScene = new PlayScene();
+                        msg.NextScene = new PlayScene(false);
                         break;
                     case 2:
                         break;
@@ -194,8 +194,13 @@ bool PlayScene::Load()
     sm.Add(s);
     s = new BehaviorSystem();
     sm.Add(s);
-    s = new AIControlSystem();
-    sm.Add(s);
+
+    if(_SinglePlayer)
+    {
+        s = new AIControlSystem();
+        sm.Add(s);
+    }
+
     s = nullptr;
 
     ef.Register("Position", []() { return new PositionComponent(); });
@@ -209,7 +214,16 @@ bool PlayScene::Load()
 
     ef.Create("scripts/ball.lua", this->GetWindow()->getSize().x / 2, this->GetWindow()->getSize().y / 2);
     ef.Create("scripts/paddle.lua", 0, this->GetWindow()->getSize().y / 2);
-    ef.Create("scripts/ai_paddle.lua", this->GetWindow()->getSize().x - 10, this->GetWindow()->getSize().y / 2);
+
+    if(_SinglePlayer)
+    {
+        ef.Create("scripts/ai_paddle.lua", this->GetWindow()->getSize().x - 10, this->GetWindow()->getSize().y / 2);
+    }
+
+    else
+    {
+        ef.Create("scripts/paddle2.lua",this->GetWindow()->getSize().x - 10, this->GetWindow()->getSize().y / 2);
+    }
 
     _BeginPoint = true;
     return true;
