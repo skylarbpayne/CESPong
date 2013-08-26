@@ -30,6 +30,7 @@ void ScoringSystem::Update(unsigned int dt)
         _Player2Score++;
         PointScoredMessage msg;
         msg.scorer = 2;
+        msg.score = _Player2Score;
         Emit<PointScoredMessage>(msg);
     }
 
@@ -38,6 +39,7 @@ void ScoringSystem::Update(unsigned int dt)
         _Player1Score++;
         PointScoredMessage msg;
         msg.scorer = 1;
+        msg.score = _Player1Score;
         Emit<PointScoredMessage>(msg);
     }
 

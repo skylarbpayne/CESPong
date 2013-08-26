@@ -109,4 +109,5 @@ struct PushEntityMessage
 struct PointScoredMessage
 {
     unsigned int scorer;
+    unsigned int score;
 };

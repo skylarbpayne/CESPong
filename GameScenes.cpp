@@ -353,6 +353,14 @@ void PlayScene::Unload()
  */
 void PlayScene::OnMessage(PointScoredMessage& msg)
 {
+
+    if(msg.score >= 5)
+    {
+        ChangeSceneMessage cmsg;
+        cmsg.NextScene = new WinScene(msg.scorer);
+        Emit<ChangeSceneMessage>(cmsg);
+    }
+
     PositionComponent* pc = nullptr;
     sf::Vector2f pos;
     Entity* e = nullptr;
@@ -385,4 +393,58 @@ void PlayScene::OnMessage(PointScoredMessage& msg)
     }
 
     _BeginPoint = true;
+}
+
+/**
+ * @brief WinScene::Load loads a font and sets up the game win message
+ * @return true if everything loaded correctly, false otherwise
+ */
+bool WinScene::Load()
+{
+    rm.AddFont("resources/Corki-Regular.otf");
+    _WinningMessage.setFont(*this->GetFont("resources/Corki-Regular.otf"));
+    _WinningMessage.setColor(sf::Color::White);
+    _WinningMessage.setCharacterSize(48);
+    _WinningMessage.setString("Player " + std::to_string(_Winner) + " Wins!");
+    _WinningMessage.setPosition((this->GetWindow()->getSize().x - _WinningMessage.getGlobalBounds().width) / 2,
+                                this->GetWindow()->getSize().y / 2);
+}
+
+/**
+ * @brief WinScene::Update displays the winning message and checks for escape key presses (to go back to menu)
+ */
+void WinScene::Update()
+{
+    sf::Event event;
+    while(this->GetWindow()->pollEvent(event))
+    {
+        if(event.type == sf::Event::Closed)
+        {
+            ExitMessage msg;
+            msg.ExitStatus = 0;
+            Emit<ExitMessage>(msg);
+        }
+
+        else if(event.type == sf::Event::KeyPressed)
+        {
+            if(event.key.code == sf::Keyboard::Escape)
+            {
+                ChangeSceneMessage msg;
+                msg.NextScene = new MainMenuScene();
+                Emit<ChangeSceneMessage>(msg);
+            }
+        }
+    }
+
+    this->GetWindow()->clear();
+    this->GetWindow()->draw(_WinningMessage);
+    this->GetWindow()->display();
+}
+
+/**
+ * @brief WinScene::Unload unloads all allocated resources
+ */
+void WinScene::Unload()
+{
+    rm.Unload();
 }

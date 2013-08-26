@@ -72,3 +72,17 @@ public:
 
         void OnMessage(PointScoredMessage& msg) override;
 };
+
+class WinScene : public IScene, public WindowAccessor, public ResourceAccessor
+{
+private:
+    unsigned int _Winner;
+    sf::Text _WinningMessage;
+    ResourceManager rm;
+public:
+    WinScene(unsigned int winner) : _Winner(winner) { }
+
+    bool Load() override;
+    void Update() override;
+    void Unload() override;
+};
