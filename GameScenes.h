@@ -43,6 +43,17 @@ public:
     void Unload() override;
 };
 
+class ControlsScene : public IScene, public WindowAccessor, public ResourceAccessor
+{
+private:
+    sf::Sprite _Controls;
+    ResourceManager rm;
+public:
+    bool Load() override;
+    void Update() override;
+    void Unload() override;
+};
+
 class PlayScene : public IScene, public WindowAccessor, public IListener<PointScoredMessage>, public EntityAccessor
 {
 private:

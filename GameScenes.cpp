@@ -33,7 +33,7 @@
 #include "AIControlSystem.h"
 
 /**
- * @brief SplashScene::Load
+ * @brief SplashScene::Load loads the splash scene texture
  * @return true if everything loaded properly
  */
 bool SplashScene::Load()
@@ -43,6 +43,9 @@ bool SplashScene::Load()
     return true;
 }
 
+/**
+ * @brief SplashScene::Update slowly fades the splash scene out
+ */
 void SplashScene::Update()
 {
     sf::Color color;
@@ -66,11 +69,18 @@ void SplashScene::Update()
     }
 }
 
+/**
+ * @brief SplashScene::Unload unloads all allocated resources
+ */
 void SplashScene::Unload()
 {
     rm.Unload();
 }
 
+/**
+ * @brief MainMenuScene::Load Loads all of the buttons
+ * @return true if everything loaded properly
+ */
 bool MainMenuScene::Load()
 {
     rm.AddFont("resources/Corki-Regular.otf");
@@ -104,6 +114,9 @@ bool MainMenuScene::Load()
     return true;
 }
 
+/**
+ * @brief MainMenuScene::Update checks for any button presses and renders the buttons
+ */
 void MainMenuScene::Update()
 {
     sf::Event event;
@@ -149,6 +162,7 @@ void MainMenuScene::Update()
                         msg.NextScene = new PlayScene(false);
                         break;
                     case 2:
+                        msg.NextScene = new ControlsScene();
                         break;
                     }
 
@@ -170,7 +184,60 @@ void MainMenuScene::Update()
     this->GetWindow()->display();
 }
 
+/**
+ * @brief MainMenuScene::Unload unloads all allocated resources
+ */
 void MainMenuScene::Unload()
+{
+    rm.Unload();
+}
+
+/**
+ * @brief ControlsScene::Load loads the controls texture
+ * @return true if everything loaded correctly, false otherwise
+ */
+bool ControlsScene::Load()
+{
+    rm.AddTexture("resources/controls.png");
+    _Controls.setTexture(*this->GetTexture("resources/controls.png"));
+    return true;
+}
+
+/**
+ * @brief ControlsScene::Update checks to see if escape was pressed
+ */
+void ControlsScene::Update()
+{
+    sf::Event event;
+    while(this->GetWindow()->pollEvent(event))
+    {
+        if(event.type == sf::Event::Closed)
+        {
+            ExitMessage msg;
+            msg.ExitStatus = 0;
+            Emit<ExitMessage>(msg);
+        }
+
+        else if(event.type == sf::Event::KeyPressed)
+        {
+            if(event.key.code == sf::Keyboard::Escape)
+            {
+                ChangeSceneMessage msg;
+                msg.NextScene = new MainMenuScene();
+                Emit<ChangeSceneMessage>(msg);
+            }
+        }
+    }
+
+    this->GetWindow()->clear();
+    this->GetWindow()->draw(_Controls);
+    this->GetWindow()->display();
+}
+
+/**
+ * @brief ControlsScene::Unload unloads all allocated resources
+ */
+void ControlsScene::Unload()
 {
     rm.Unload();
 }
@@ -244,15 +311,25 @@ void PlayScene::Update()
             Emit<ExitMessage>(msg);
         }
 
-        else if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space && _BeginPoint)
+        else if(event.type == sf::Event::KeyPressed)
         {
-            _BeginPoint = false;
+            if(event.key.code == sf::Keyboard::Space && _BeginPoint)
+            {
+                _BeginPoint = false;
 
-            PushEntityMessage msg;
-            msg.ID = 0;
-            msg.newVelocity.x = (rand() % 2) ? -7 : 7;
-            msg.newVelocity.y = (rand() % 2) ? -5 : 5;
-            Emit<PushEntityMessage>(msg);
+                PushEntityMessage msg;
+                msg.ID = 0;
+                msg.newVelocity.x = (rand() % 2) ? -7 : 7;
+                msg.newVelocity.y = (rand() % 2) ? -5 : 5;
+                Emit<PushEntityMessage>(msg);
+            }
+
+            else if(event.key.code == sf::Keyboard::Escape)
+            {
+                ChangeSceneMessage cmsg;
+                cmsg.NextScene = new MainMenuScene();
+                Emit<ChangeSceneMessage>(cmsg);
+            }
         }
     }
 
