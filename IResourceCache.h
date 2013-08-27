@@ -53,5 +53,6 @@ public:
      */
     void Unload()
     {
+        _Resources.clear();
     }
 };
