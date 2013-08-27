@@ -14,7 +14,7 @@ typedef std::unordered_map<const char*, sf::SoundBuffer*, eqstr, eqstr> SoundMap
 class SoundCache : public IResourceCache<sf::SoundBuffer>
 {
 public:
-    SoundCache(unsigned int size = 10) : IResourceCache("Sound", size) { }
+    SoundCache(unsigned int size = 10) : IResourceCache(size) { }
     bool Add(const char* file);
     void Remove(const char* file);
     sf::SoundBuffer* Get(const char* file);

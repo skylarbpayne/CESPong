@@ -16,7 +16,7 @@ typedef std::unordered_map<const char*, sf::Texture*, eqstr, eqstr> TextureMap;
 class TextureCache : public IResourceCache<sf::Texture>
 {
 public:
-    TextureCache(unsigned int size = 10) : IResourceCache("Texture", size) { }
+    TextureCache(unsigned int size = 10) : IResourceCache(size) { }
     bool Add(const char* file);
     void Remove(const char* file);
     sf::Texture* Get(const char* file);
