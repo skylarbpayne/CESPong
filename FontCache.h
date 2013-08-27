@@ -16,7 +16,7 @@ typedef std::unordered_map<const char*, sf::Font*, eqstr, eqstr> FontMap;
 class FontCache : public IResourceCache<sf::Font>
 {
 public:
-    FontCache(unsigned int size = 10) : IResourceCache("Font", size) { }
+    FontCache(unsigned int size = 10) : IResourceCache(size) { }
     bool Add(const char* file);
     void Remove(const char* file);
     sf::Font* Get(const char* file);
